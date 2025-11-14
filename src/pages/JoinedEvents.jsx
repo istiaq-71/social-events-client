@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../providers/AuthProvider';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaArrowRight } from 'react-icons/fa';
+import LoadingSpinner from '../components/LoadingSpinner';
+import toast from 'react-hot-toast';
 
 const JoinedEvents = () => {
   const { user } = useAuth();
@@ -13,77 +15,181 @@ const JoinedEvents = () => {
   }, [user]);
 
   const fetchJoinedEvents = async () => {
+    setLoading(true);
     try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/joined-events/${user.email}`
+        `${apiUrl}/api/joined-events/${user.email}`
       );
       const data = await response.json();
-      setEvents(data);
+      
+      // Sort events by date
+      const sortedEvents = data.sort((a, b) => 
+        new Date(a.eventDate) - new Date(b.eventDate)
+      );
+      
+      setEvents(sortedEvents);
     } catch (error) {
       console.error('Error fetching joined events:', error);
+      toast.error('Failed to load joined events');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleRemoveEvent = async (joinId) => {
+    if (!confirm('Are you sure you want to remove this event from your joined events?')) {
+      return;
+    }
+
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(
+        `${apiUrl}/api/joined-events/${joinId}`,
+        {
+          method: 'DELETE'
+        }
+      );
+
+      if (response.ok) {
+        toast.success('Event removed from your list');
+        fetchJoinedEvents();
+      } else {
+        toast.error('Failed to remove event');
+      }
+    } catch (error) {
+      toast.error('Error removing event');
+    }
+  };
+
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center py-12 px-4">
+        <LoadingSpinner size="lg" text="Loading your events..." />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen py-12 px-4">
-      <div className="container mx-auto">
-        <motion.h1
+    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-slate-800">
+      <div className="w-full max-w-7xl mx-auto">
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-4xl font-bold text-center mb-8"
+          className="text-center mb-12"
         >
-          My Joined Events
-        </motion.h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            My Joined <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Events</span>
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            Track all the events you've joined, organized by date
+          </p>
+        </motion.div>
 
         {events.length === 0 ? (
-          <div className="text-center py-20">
-            <p className="text-2xl text-gray-500">You haven't joined any events yet</p>
-          </div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-20 bg-white dark:bg-slate-900 rounded-xl shadow-lg"
+          >
+            <p className="text-2xl font-semibold text-gray-600 dark:text-gray-400 mb-4">
+              No joined events yet
+            </p>
+            <p className="text-gray-500 dark:text-gray-500 mb-8">
+              Explore and join events to get started!
+            </p>
+          </motion.div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {events.map((event, index) => (
-              <motion.div
-                key={event._id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white dark:bg-slate-900 rounded-xl shadow-lg overflow-hidden"
-              >
-                <img
-                  src={event.eventThumbnail}
-                  alt={event.eventTitle}
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{event.eventTitle}</h3>
-                  <div className="space-y-2 text-gray-600 dark:text-gray-300">
-                    <div className="flex items-center gap-2">
-                      <FaMapMarkerAlt className="text-primary" />
-                      <span className="text-sm">{event.eventLocation}</span>
+          <div className="space-y-6">
+            {events.map((event, index) => {
+              const eventDate = new Date(event.eventDate);
+              const today = new Date();
+              const isUpcoming = eventDate > today;
+              const isPast = eventDate < today;
+
+              return (
+                <motion.div
+                  key={event._id}
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  whileHover={{ scale: 1.02 }}
+                  className={`bg-white dark:bg-slate-900 rounded-xl shadow-lg overflow-hidden border-l-4 transition-all ${
+                    isPast 
+                      ? 'border-l-gray-400 opacity-75' 
+                      : 'border-l-green-600'
+                  }`}
+                >
+                  <div className="flex flex-col md:flex-row">
+                    {/* Image */}
+                    <div className="md:w-1/4 h-48 md:h-auto overflow-hidden">
+                      <motion.img
+                        whileHover={{ scale: 1.1 }}
+                        src={event.eventThumbnail || 'https://via.placeholder.com/300'}
+                        alt={event.eventTitle}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <div className="flex items-center gap-2">
-                      <FaCalendarAlt className="text-primary" />
-                      <span className="text-sm">
-                        {new Date(event.eventDate).toLocaleDateString()}
-                      </span>
+
+                    {/* Content */}
+                    <div className="flex-1 p-6 md:p-8">
+                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                        <div className="flex-1">
+                          <div className="flex items-center gap-3 mb-3">
+                            <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                              isPast 
+                                ? 'bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-gray-400' 
+                                : 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400'
+                            }`}>
+                              {isPast ? 'Past Event' : 'Upcoming'}
+                            </span>
+                          </div>
+
+                          <h3 className="text-2xl font-bold mb-3 text-gray-900 dark:text-white">
+                            {event.eventTitle}
+                          </h3>
+
+                          <div className="space-y-2 text-gray-600 dark:text-gray-300 mb-4">
+                            <div className="flex items-center gap-2">
+                              <FaCalendarAlt className="text-primary text-lg" />
+                              <span className="font-medium">
+                                {eventDate.toLocaleDateString('en-US', {
+                                  weekday: 'long',
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <FaMapMarkerAlt className="text-primary text-lg" />
+                              <span className="font-medium">{event.eventLocation}</span>
+                            </div>
+                          </div>
+
+                          {isPast && (
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              This event has already taken place. Thank you for participating!
+                            </p>
+                          )}
+                        </div>
+
+                        {/* Action Button */}
+                        <motion.button
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          onClick={() => handleRemoveEvent(event._id)}
+                          className="w-full md:w-auto bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+                        >
+                          Remove
+                          <FaArrowRight className="rotate-180" />
+                        </motion.button>
+                      </div>
                     </div>
                   </div>
-                  <div className="mt-4 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-4 py-2 rounded-lg text-center text-sm font-semibold">
-                    Joined on {new Date(event.joinedAt).toLocaleDateString()}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              );
+            })}
           </div>
         )}
       </div>

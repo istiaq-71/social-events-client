@@ -4,6 +4,7 @@ import { useAuth } from '../providers/AuthProvider';
 import { motion } from 'framer-motion';
 import { FaCalendarAlt, FaMapMarkerAlt, FaUser } from 'react-icons/fa';
 import toast from 'react-hot-toast';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const EventDetails = () => {
   const { id } = useParams();
@@ -23,7 +24,8 @@ const EventDetails = () => {
 
   const fetchEventDetails = async () => {
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/events/${id}`);
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/events/${id}`);
       const data = await response.json();
       setEvent(data);
     } catch (error) {
@@ -35,8 +37,9 @@ const EventDetails = () => {
 
   const checkIfJoined = async () => {
     try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
       const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/check-join/${id}/${user.email}`
+        `${apiUrl}/api/check-join/${id}/${user.email}`
       );
       const data = await response.json();
       setHasJoined(data.joined);
@@ -65,7 +68,8 @@ const EventDetails = () => {
     };
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/join-event`, {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/join-event`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -89,8 +93,8 @@ const EventDetails = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-primary"></div>
+      <div className="min-h-screen flex items-center justify-center py-12 px-4">
+        <LoadingSpinner size="lg" text="Loading event details..." />
       </div>
     );
   }
@@ -104,71 +108,103 @@ const EventDetails = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4">
+    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-slate-900">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-4xl mx-auto bg-white dark:bg-slate-900 rounded-xl shadow-2xl overflow-hidden"
+        className="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-xl shadow-xl overflow-hidden"
       >
-        <img
-          src={event.thumbnailUrl}
-          alt={event.title}
-          className="w-full h-96 object-cover"
-        />
-        
-        <div className="p-8">
-          <div className="mb-4">
-            <span className="bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium">
-              {event.eventType}
-            </span>
+        <div className="relative h-96 overflow-hidden">
+          <img
+            src={event.thumbnailUrl}
+            alt={event.title}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+          <div className="absolute bottom-6 left-6 right-6">
+            <div className="mb-4">
+              <span className="bg-green-600 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                {event.eventType}
+              </span>
+            </div>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
+              {event.title}
+            </h1>
           </div>
-
-          <h1 className="text-4xl font-bold mb-4">{event.title}</h1>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
-              <FaCalendarAlt className="text-primary text-xl" />
-              <div>
-                <p className="text-sm text-gray-500">Date</p>
-                <p className="font-semibold">{new Date(event.eventDate).toLocaleDateString()}</p>
+        </div>
+        
+        <div className="p-8 md:p-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-4 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-800"
+            >
+              <div className="w-12 h-12 bg-blue-600 rounded-xl flex items-center justify-center">
+                <FaCalendarAlt className="text-white text-xl" />
               </div>
-            </div>
-            <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
-              <FaMapMarkerAlt className="text-primary text-xl" />
               <div>
-                <p className="text-sm text-gray-500">Location</p>
-                <p className="font-semibold">{event.location}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Event Date</p>
+                <p className="font-bold text-gray-900 dark:text-white">
+                  {new Date(event.eventDate).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric'
+                  })}
+                </p>
               </div>
-            </div>
-            <div className="flex items-center gap-3 text-gray-600 dark:text-gray-300">
-              <FaUser className="text-primary text-xl" />
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-4 p-4 bg-green-50 dark:bg-green-900/30 rounded-xl border border-green-200 dark:border-green-800"
+            >
+              <div className="w-12 h-12 bg-green-600 rounded-xl flex items-center justify-center">
+                <FaMapMarkerAlt className="text-white text-xl" />
+              </div>
               <div>
-                <p className="text-sm text-gray-500">Organizer</p>
-                <p className="font-semibold">{event.creatorName}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Location</p>
+                <p className="font-bold text-gray-900 dark:text-white">{event.location}</p>
               </div>
-            </div>
+            </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              className="flex items-center gap-4 p-4 bg-purple-50 dark:bg-purple-900/30 rounded-xl border border-purple-200 dark:border-purple-800"
+            >
+              <div className="w-12 h-12 bg-purple-600 rounded-xl flex items-center justify-center">
+                <FaUser className="text-white text-xl" />
+              </div>
+              <div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mb-1">Organizer</p>
+                <p className="font-bold text-gray-900 dark:text-white">{event.creatorName}</p>
+              </div>
+            </motion.div>
           </div>
 
           <div className="mb-8">
-            <h2 className="text-2xl font-bold mb-3">Description</h2>
-            <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+            <h2 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">
+              About This Event
+            </h2>
+            <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
               {event.description}
             </p>
           </div>
 
           {hasJoined ? (
-            <div className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-6 py-4 rounded-lg text-center font-semibold">
-              You have already joined this event
-            </div>
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              className="bg-green-600 text-white px-8 py-6 rounded-xl text-center font-bold text-lg shadow-lg"
+            >
+              ✓ You have successfully joined this event!
+            </motion.div>
           ) : (
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
               onClick={handleJoinEvent}
               disabled={joining}
-              className="w-full bg-primary text-white py-4 rounded-lg text-lg font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-xl text-xl font-bold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {joining ? 'Joining...' : 'Join Event'}
+              {joining ? 'Joining Event...' : '✨ Join This Event'}
             </motion.button>
           )}
         </div>

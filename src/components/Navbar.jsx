@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
 import { useTheme } from '../providers/ThemeProvider';
-import { FaSun, FaMoon, FaBars, FaTimes } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaLeaf } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -17,6 +17,7 @@ const Navbar = () => {
       .then(() => {
         toast.success('Logged out successfully!');
         setIsDropdownOpen(false);
+        setIsMenuOpen(false);
       })
       .catch(error => {
         toast.error('Error logging out');
@@ -28,13 +29,15 @@ const Navbar = () => {
       <NavLink
         to="/upcoming-events"
         className={({ isActive }) =>
-          isActive
-            ? 'text-primary font-semibold'
-            : 'hover:text-primary transition-colors'
+          `px-3 py-2 rounded-lg font-medium transition-all ${
+            isActive
+              ? 'bg-primary/10 text-primary'
+              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800'
+          }`
         }
         onClick={() => setIsMenuOpen(false)}
       >
-        Upcoming Events
+        Events
       </NavLink>
     </>
   );
@@ -43,112 +46,110 @@ const Navbar = () => {
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      className="bg-white dark:bg-slate-900 shadow-md sticky top-0 z-50"
+      className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg shadow-sm sticky top-0 z-50 border-b border-gray-100 dark:border-slate-800"
     >
-      <div className="container mx-auto px-4">
+      <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
+          <Link to="/" className="flex items-center space-x-2 group">
             <motion.div
-              whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold text-primary"
+              whileHover={{ scale: 1.1, rotate: 5 }}
+              className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent flex items-center space-x-1"
             >
-              🌱 SocialServe
+              <FaLeaf className="text-green-600" />
+              <span>SocialServe</span>
             </motion.div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-1">
             {navLinks}
-            
+          </div>
+
+          {/* Right Side Actions */}
+          <div className="flex items-center space-x-4">
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors text-gray-700 dark:text-gray-300"
+              title="Toggle theme"
             >
-              {theme === 'light' ? <FaMoon /> : <FaSun />}
+              {theme === 'light' ? <FaMoon className="text-lg" /> : <FaSun className="text-lg" />}
             </button>
 
             {user ? (
-              <div className="relative">
+              <div className="relative hidden md:block">
                 <button
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 focus:outline-none"
+                  className="flex items-center space-x-2 focus:outline-none group"
                 >
                   <motion.img
                     whileHover={{ scale: 1.1 }}
                     src={user.photoURL || 'https://via.placeholder.com/40'}
                     alt={user.displayName}
-                    className="w-10 h-10 rounded-full border-2 border-primary"
+                    className="w-10 h-10 rounded-full border-2 border-primary object-cover"
                     title={user.displayName}
                   />
                 </button>
 
                 {isDropdownOpen && (
                   <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-lg shadow-lg py-2"
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-xl py-2 border border-gray-100 dark:border-slate-700"
                   >
-                    <div className="px-4 py-2 border-b dark:border-slate-700">
-                      <p className="font-semibold truncate">{user.displayName}</p>
-                      <p className="text-sm text-gray-500 truncate">{user.email}</p>
+                    <div className="px-4 py-3 border-b border-gray-100 dark:border-slate-700">
+                      <p className="font-semibold text-gray-900 dark:text-white truncate">{user.displayName}</p>
+                      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
                     </div>
                     <Link
                       to="/create-event"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700"
                       onClick={() => setIsDropdownOpen(false)}
+                      className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
                     >
-                      Create Event
+                      ➕ Create Event
                     </Link>
                     <Link
                       to="/manage-events"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700"
                       onClick={() => setIsDropdownOpen(false)}
+                      className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
                     >
-                      Manage Events
+                      📋 Manage Events
                     </Link>
                     <Link
                       to="/joined-events"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700"
                       onClick={() => setIsDropdownOpen(false)}
+                      className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
                     >
-                      Joined Events
+                      ✓ Joined Events
                     </Link>
                     <button
                       onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 hover:bg-gray-100 dark:hover:bg-slate-700 text-red-600"
+                      className="block w-full text-left px-4 py-2.5 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors border-t border-gray-100 dark:border-slate-700 mt-2 pt-2"
                     >
-                      Logout
+                      🚪 Logout
                     </button>
                   </motion.div>
                 )}
               </div>
             ) : (
-              <Link to="/login">
+              <Link to="/login" className="hidden md:block">
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary/90 transition-colors"
+                  className="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-2.5 rounded-lg font-semibold hover:shadow-lg transition-all"
                 >
                   Login
                 </motion.button>
               </Link>
             )}
-          </div>
 
-          {/* Mobile Menu Button */}
-          <div className="md:hidden flex items-center space-x-4">
-            <button
-              onClick={toggleTheme}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800"
-            >
-              {theme === 'light' ? <FaMoon /> : <FaSun />}
-            </button>
+            {/* Mobile Menu Button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-2xl"
+              className="md:hidden p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
             >
-              {isMenuOpen ? <FaTimes /> : <FaBars />}
+              {isMenuOpen ? <FaTimes className="text-xl" /> : <FaBars className="text-xl" />}
             </button>
           </div>
         </div>
@@ -158,53 +159,54 @@ const Navbar = () => {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            className="md:hidden pb-4 space-y-4"
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden pb-4 space-y-2 border-t border-gray-100 dark:border-slate-800"
           >
             {navLinks}
             {user ? (
               <>
-                <div className="flex items-center space-x-2 py-2">
+                <div className="flex items-center space-x-3 py-3 px-3">
                   <img
                     src={user.photoURL || 'https://via.placeholder.com/40'}
                     alt={user.displayName}
-                    className="w-10 h-10 rounded-full border-2 border-primary"
+                    className="w-10 h-10 rounded-full border-2 border-primary object-cover"
                   />
                   <div>
-                    <p className="font-semibold">{user.displayName}</p>
-                    <p className="text-sm text-gray-500">{user.email}</p>
+                    <p className="font-semibold text-gray-900 dark:text-white">{user.displayName}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{user.email}</p>
                   </div>
                 </div>
                 <Link
                   to="/create-event"
-                  className="block hover:text-primary"
                   onClick={() => setIsMenuOpen(false)}
+                  className="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
                 >
-                  Create Event
+                  ➕ Create Event
                 </Link>
                 <Link
                   to="/manage-events"
-                  className="block hover:text-primary"
                   onClick={() => setIsMenuOpen(false)}
+                  className="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
                 >
-                  Manage Events
+                  📋 Manage Events
                 </Link>
                 <Link
                   to="/joined-events"
-                  className="block hover:text-primary"
                   onClick={() => setIsMenuOpen(false)}
+                  className="block px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 text-gray-700 dark:text-gray-300"
                 >
-                  Joined Events
+                  ✓ Joined Events
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="block text-left text-red-600 w-full"
+                  className="block w-full text-left px-3 py-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400"
                 >
-                  Logout
+                  🚪 Logout
                 </button>
               </>
             ) : (
-              <Link to="/login" onClick={() => setIsMenuOpen(false)}>
-                <button className="bg-primary text-white px-6 py-2 rounded-lg w-full">
+              <Link to="/login" onClick={() => setIsMenuOpen(false)} className="block">
+                <button className="w-full bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-2.5 rounded-lg font-semibold">
                   Login
                 </button>
               </Link>

@@ -1,15 +1,17 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import CustomDatePicker from '../components/CustomDatePicker';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
+import { FaCalendarAlt, FaMapMarkerAlt, FaImage, FaHeading, FaFileAlt, FaTag } from 'react-icons/fa';
 
 const CreateEvent = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   
   const [formData, setFormData] = useState({
     title: '',
@@ -26,40 +28,76 @@ const CreateEvent = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+    if (errors[e.target.name]) {
+      setErrors({
+        ...errors,
+        [e.target.name]: ''
+      });
+    }
   };
 
   const validateForm = () => {
+    const newErrors = {};
+
     if (!formData.title.trim()) {
-      toast.error('Title is required');
-      return false;
+      newErrors.title = 'Event title is required';
+    } else if (formData.title.trim().length < 5) {
+      newErrors.title = 'Title must be at least 5 characters';
     }
+
     if (!formData.description.trim()) {
-      toast.error('Description is required');
-      return false;
+      newErrors.description = 'Description is required';
+    } else if (formData.description.trim().length < 20) {
+      newErrors.description = 'Description must be at least 20 characters';
     }
+
     if (!formData.eventType) {
-      toast.error('Event type is required');
-      return false;
+      newErrors.eventType = 'Event type is required';
     }
+
     if (!formData.thumbnailUrl.trim()) {
-      toast.error('Thumbnail URL is required');
-      return false;
+      newErrors.thumbnailUrl = 'Thumbnail URL is required';
+    } else {
+      try {
+        new URL(formData.thumbnailUrl);
+      } catch {
+        newErrors.thumbnailUrl = 'Please enter a valid URL';
+      }
     }
+
     if (!formData.location.trim()) {
-      toast.error('Location is required');
-      return false;
+      newErrors.location = 'Location is required';
+    } else if (formData.location.trim().length < 3) {
+      newErrors.location = 'Location must be at least 3 characters';
     }
+
     if (!selectedDate) {
-      toast.error('Event date is required');
-      return false;
+      newErrors.date = 'Event date is required';
+    } else {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const selected = new Date(selectedDate);
+      selected.setHours(0, 0, 0, 0);
+      if (selected < today) {
+        newErrors.date = 'Event date must be in the future';
+      }
     }
-    return true;
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user) {
+      toast.error('Please login to create an event');
+      navigate('/login');
+      return;
+    }
+
     if (!validateForm()) {
+      toast.error('Please fix the errors in the form');
       return;
     }
 
@@ -67,11 +105,16 @@ const CreateEvent = () => {
       ...formData,
       eventDate: selectedDate.toISOString().split('T')[0],
       creatorEmail: user.email,
-      creatorName: user.displayName
+      creatorName: user.displayName || user.email
     };
 
+    setIsLoading(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/events`, {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      console.log('Creating event with API URL:', apiUrl);
+      console.log('Event data:', eventData);
+      
+      const response = await fetch(`${apiUrl}/api/events`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -79,111 +122,185 @@ const CreateEvent = () => {
         body: JSON.stringify(eventData)
       });
 
+      const data = await response.json();
+      console.log('API Response:', data);
+
       if (response.ok) {
-        toast.success('Event created successfully!');
+        toast.success('Event created successfully! 🎉');
         navigate('/upcoming-events');
       } else {
-        toast.error('Failed to create event');
+        toast.error(data.message || 'Failed to create event. Please try again.');
       }
     } catch (error) {
-      toast.error('Error creating event');
+      console.error('Error creating event:', error);
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack
+      });
+      toast.error('Error creating event. Check console for details.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-slate-800">
+    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-slate-900">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-3xl mx-auto bg-white dark:bg-slate-900 rounded-xl shadow-2xl p-8"
+        className="max-w-3xl mx-auto"
       >
-        <h2 className="text-3xl font-bold text-center mb-8">Create New Event</h2>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+            Create an <span className="text-green-600 dark:text-green-400">Event</span>
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 text-lg">
+            Organize a social development event and make a positive impact in your community
+          </p>
+        </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">Event Title *</label>
-            <input
-              type="text"
-              name="title"
-              value={formData.title}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 focus:outline-none focus:border-primary transition-colors"
-              placeholder="e.g., Road Cleaning in Mirpur 10, Dhaka"
-            />
-          </div>
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 md:p-12">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Title */}
+            <div>
+              <label className="block text-sm font-semibold mb-3 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <FaHeading className="text-green-600" />
+                Event Title <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none ${
+                  errors.title
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                } dark:bg-slate-700 dark:text-white`}
+                placeholder="e.g., Road Cleaning in Mirpur 10, Dhaka"
+              />
+              {errors.title && <p className="text-red-500 text-sm mt-2">{errors.title}</p>}
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2">Description *</label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              rows="4"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 focus:outline-none focus:border-primary transition-colors"
-              placeholder="Describe your event in detail..."
-            />
-          </div>
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-semibold mb-3 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <FaFileAlt className="text-green-600" />
+                Description <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleChange}
+                rows="6"
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none ${
+                  errors.description
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                } dark:bg-slate-700 dark:text-white resize-none`}
+                placeholder="Describe your event in detail..."
+              />
+              {errors.description && <p className="text-red-500 text-sm mt-2">{errors.description}</p>}
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium mb-2">Event Type *</label>
-            <select
-              name="eventType"
-              value={formData.eventType}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 focus:outline-none focus:border-primary transition-colors"
+            {/* Event Type */}
+            <div>
+              <label className="block text-sm font-semibold mb-3 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <FaTag className="text-green-600" />
+                Event Type <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="eventType"
+                value={formData.eventType}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none ${
+                  errors.eventType
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                } dark:bg-slate-700 dark:text-white`}
+              >
+                <option value="">Select event type</option>
+                {eventTypes.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+              {errors.eventType && <p className="text-red-500 text-sm mt-2">{errors.eventType}</p>}
+            </div>
+
+            {/* Thumbnail URL */}
+            <div>
+              <label className="block text-sm font-semibold mb-3 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <FaImage className="text-green-600" />
+                Thumbnail Image URL <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="url"
+                name="thumbnailUrl"
+                value={formData.thumbnailUrl}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none ${
+                  errors.thumbnailUrl
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                } dark:bg-slate-700 dark:text-white`}
+                placeholder="https://example.com/image.jpg"
+              />
+              {errors.thumbnailUrl && <p className="text-red-500 text-sm mt-2">{errors.thumbnailUrl}</p>}
+            </div>
+
+            {/* Location */}
+            <div>
+              <label className="block text-sm font-semibold mb-3 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <FaMapMarkerAlt className="text-green-600" />
+                Location <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none ${
+                  errors.location
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                } dark:bg-slate-700 dark:text-white`}
+                placeholder="e.g., Mirpur 10, Dhaka"
+              />
+              {errors.location && <p className="text-red-500 text-sm mt-2">{errors.location}</p>}
+            </div>
+
+            {/* Event Date */}
+            <div>
+              <label className="block text-sm font-semibold mb-3 flex items-center gap-2 text-gray-700 dark:text-gray-300">
+                <FaCalendarAlt className="text-green-600" />
+                Event Date <span className="text-red-500">*</span>
+              </label>
+              <CustomDatePicker
+                selected={selectedDate}
+                onChange={(date) => {
+                  setSelectedDate(date);
+                  if (errors.date) {
+                    setErrors({ ...errors, date: '' });
+                  }
+                }}
+                minDate={new Date()}
+                placeholder="Select event date"
+              />
+              {errors.date && <p className="text-red-500 text-sm mt-2">{errors.date}</p>}
+            </div>
+
+            {/* Submit Button */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-lg font-semibold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-lg"
             >
-              <option value="">Select event type</option>
-              {eventTypes.map(type => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">Thumbnail Image URL *</label>
-            <input
-              type="url"
-              name="thumbnailUrl"
-              value={formData.thumbnailUrl}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 focus:outline-none focus:border-primary transition-colors"
-              placeholder="https://example.com/image.jpg"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">Location *</label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-slate-600 dark:bg-slate-800 focus:outline-none focus:border-primary transition-colors"
-              placeholder="e.g., Mirpur 10, Dhaka"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-2">Event Date *</label>
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              minDate={new Date()}
-              dateFormat="yyyy-MM-dd"
-              placeholderText="Select event date"
-              className="w-full"
-            />
-          </div>
-
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            type="submit"
-            className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-          >
-            Create Event
-          </motion.button>
-        </form>
+              {isLoading ? 'Creating Event...' : 'Create Event'}
+            </motion.button>
+          </form>
+        </div>
       </motion.div>
     </div>
   );

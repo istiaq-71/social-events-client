@@ -19,9 +19,10 @@ function App() {
     <ThemeProvider>
       <AuthProvider>
         <Router>
-          <div className="min-h-screen bg-white dark:bg-slate-900 text-gray-900 dark:text-gray-100">
+          <div className="flex flex-col w-full min-h-screen bg-white dark:bg-slate-900 text-gray-900 dark:text-gray-100">
             <Navbar />
-            <Routes>
+            <main className="flex-grow w-full">
+              <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
@@ -52,6 +53,7 @@ function App() {
                 }
               />
             </Routes>
+            </main>
             <Footer />
             <Toaster position="top-right" />
           </div>
