@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaMapMarkerAlt, FaSearch, FaSeedling } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
 import LoadingSpinner from '../components/LoadingSpinner';
-import toast from 'react-hot-toast';
-import { sampleEvents } from '../data/sampleEvents';
 
 const UpcomingEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [eventType, setEventType] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [isSeedingEvents, setIsSeedingEvents] = useState(false);
 
   const eventTypes = ['all', 'Cleanup', 'Plantation', 'Donation', 'Education', 'Healthcare', 'Other'];
 
@@ -23,42 +20,19 @@ const UpcomingEvents = () => {
     setLoading(true);
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      
-      const endpoints = [
-        `${apiUrl}/api/events`,
-        `${apiUrl}/events`,
-        `${apiUrl}/event`
-      ];
-
-      let params = '';
+      let url = `${apiUrl}/api/events?`;
       if (eventType !== 'all') {
-        params += `?eventType=${eventType}`;
+        url += `eventType=${eventType}&`;
       }
       if (searchTerm) {
-        params += eventType !== 'all' ? `&search=${searchTerm}` : `?search=${searchTerm}`;
+        url += `search=${searchTerm}`;
       }
 
-      let data = null;
-      for (const endpoint of endpoints) {
-        try {
-          const response = await fetch(`${endpoint}${params}`);
-          if (response.ok) {
-            data = await response.json();
-            break;
-          }
-        } catch (e) {
-          // Try next endpoint
-        }
-      }
-
-      if (data) {
-        setEvents(Array.isArray(data) ? data : []);
-      } else {
-        setEvents([]);
-      }
+      const response = await fetch(url);
+      const data = await response.json();
+      setEvents(data);
     } catch (error) {
       console.error('Error fetching events:', error);
-      setEvents([]);
     } finally {
       setLoading(false);
     }
@@ -67,52 +41,6 @@ const UpcomingEvents = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     fetchEvents();
-  };
-
-  const handleSeedEvents = async () => {
-    setIsSeedingEvents(true);
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      console.log('Seeding events to:', apiUrl);
-      
-      let successCount = 0;
-      let failureCount = 0;
-
-      for (const event of sampleEvents) {
-        try {
-          const response = await fetch(`${apiUrl}/api/events`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(event)
-          });
-
-          if (response.ok) {
-            successCount++;
-          } else {
-            failureCount++;
-          }
-        } catch (error) {
-          failureCount++;
-        }
-      }
-
-      if (successCount > 0) {
-        toast.success(`✅ Added ${successCount} events successfully!`);
-        // Refresh the events list
-        await new Promise(resolve => setTimeout(resolve, 500));
-        fetchEvents();
-      }
-      if (failureCount > 0) {
-        toast.error(`⚠️ Failed to add ${failureCount} events`);
-      }
-    } catch (error) {
-      console.error('Error seeding events:', error);
-      toast.error('Error seeding events. Check console for details.');
-    } finally {
-      setIsSeedingEvents(false);
-    }
   };
 
   if (loading) {
@@ -184,20 +112,6 @@ const UpcomingEvents = () => {
                 {type.charAt(0).toUpperCase() + type.slice(1)}
               </motion.button>
             ))}
-          </div>
-
-          {/* Seed Events Button */}
-          <div className="text-center">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              onClick={handleSeedEvents}
-              disabled={isSeedingEvents}
-              className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-3 rounded-lg font-semibold shadow-lg transition-all flex items-center gap-2 mx-auto"
-            >
-              <FaSeedling />
-              {isSeedingEvents ? 'Adding Events...' : 'Add Sample Events'}
-            </motion.button>
           </div>
         </motion.div>
 
