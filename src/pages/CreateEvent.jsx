@@ -114,22 +114,43 @@ const CreateEvent = () => {
       console.log('Creating event with API URL:', apiUrl);
       console.log('Event data:', eventData);
       
-      const response = await fetch(`${apiUrl}/api/events`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(eventData)
-      });
+      const endpoints = [
+        `${apiUrl}/api/events`,
+        `${apiUrl}/events`,
+        `${apiUrl}/event`
+      ];
 
-      const data = await response.json();
-      console.log('API Response:', data);
+      let success = false;
+      let lastError = null;
 
-      if (response.ok) {
-        toast.success('Event created successfully! 🎉');
-        navigate('/upcoming-events');
-      } else {
-        toast.error(data.message || 'Failed to create event. Please try again.');
+      for (const endpoint of endpoints) {
+        try {
+          const response = await fetch(endpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(eventData)
+          });
+
+          const data = await response.json();
+          console.log('API Response:', data);
+
+          if (response.ok) {
+            toast.success('Event created successfully! 🎉');
+            navigate('/upcoming-events');
+            success = true;
+            break;
+          }
+        } catch (error) {
+          lastError = error;
+          console.log(`Endpoint ${endpoint} failed:`, error.message);
+        }
+      }
+
+      if (!success) {
+        toast.error('Error creating event. Check console for details.');
+        console.error('All endpoints failed');
       }
     } catch (error) {
       console.error('Error creating event:', error);
