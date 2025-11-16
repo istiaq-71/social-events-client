@@ -1,8 +1,12 @@
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { FaUsers, FaCalendarAlt, FaHandsHelping, FaMapMarkerAlt, FaArrowRight, FaStar } from 'react-icons/fa';
+import toast from 'react-hot-toast';
 
 const Home = () => {
+  const [email, setEmail] = useState('');
+  const [isSubscribing, setIsSubscribing] = useState(false);
   const features = [
     {
       icon: <FaCalendarAlt className="text-5xl" />,
@@ -45,6 +49,49 @@ const Home = () => {
     { number: '2K+', label: 'Lives Impacted' },
     { number: '25', label: 'Locations' }
   ];
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    
+    // Validate email
+    if (!email.trim()) {
+      toast.error('Please enter your email address');
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      toast.error('Please enter a valid email address');
+      return;
+    }
+
+    setIsSubscribing(true);
+    
+    try {
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await fetch(`${apiUrl}/api/subscribe`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: email.trim() })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success('Successfully subscribed to newsletter! 🎉');
+        setEmail(''); // Clear the input
+      } else {
+        toast.error(data.message || 'Failed to subscribe. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error subscribing:', error);
+      toast.error('Error subscribing. Please try again later.');
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
 
   return (
     <div className="w-full">
@@ -225,20 +272,26 @@ const Home = () => {
             <p className="text-lg text-green-100 mb-8">
               Subscribe to our newsletter and never miss upcoming events in your area
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center max-w-xl mx-auto">
+            <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center max-w-xl mx-auto">
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="flex-1 px-6 py-4 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-300 text-base"
+                disabled={isSubscribing}
+                className="flex-1 px-6 py-4 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-green-300 text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                required
               />
               <motion.button
+                type="submit"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all whitespace-nowrap"
+                disabled={isSubscribing}
+                className="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-all whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Subscribe
+                {isSubscribing ? 'Subscribing...' : 'Subscribe'}
               </motion.button>
-            </div>
+            </form>
           </motion.div>
         </div>
       </section>
