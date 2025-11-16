@@ -51,14 +51,18 @@ const JoinedEvents = () => {
         }
       );
 
+      const data = await response.json();
+
       if (response.ok) {
-        toast.success('Event removed from your list');
+        toast.success('Event removed from your list successfully!');
         fetchJoinedEvents();
       } else {
-        toast.error('Failed to remove event');
+        toast.error(data.message || 'Failed to remove event');
+        console.error('Remove error:', data);
       }
     } catch (error) {
-      toast.error('Error removing event');
+      console.error('Error removing event:', error);
+      toast.error('Error removing event. Please try again.');
     }
   };
 
