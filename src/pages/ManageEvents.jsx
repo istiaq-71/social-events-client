@@ -81,7 +81,7 @@ const ManageEvents = () => {
   };
 
   const handleDelete = async (eventId) => {
-    if (!confirm('Are you sure you want to delete this event?')) {
+    if (!confirm('Are you sure you want to delete this event? This will also remove all users who joined this event.')) {
       return;
     }
 
@@ -94,14 +94,18 @@ const ManageEvents = () => {
         }
       );
 
+      const data = await response.json();
+
       if (response.ok) {
         toast.success('Event deleted successfully!');
         fetchMyEvents();
       } else {
-        toast.error('Failed to delete event');
+        toast.error(data.message || 'Failed to delete event');
+        console.error('Delete error:', data);
       }
     } catch (error) {
-      toast.error('Error deleting event');
+      console.error('Error deleting event:', error);
+      toast.error('Error deleting event. Please try again.');
     }
   };
 
