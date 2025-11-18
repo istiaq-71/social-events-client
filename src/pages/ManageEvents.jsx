@@ -175,8 +175,14 @@ const ManageEvents = () => {
     <div className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 md:px-8 bg-gradient-to-br from-gray-50 via-blue-50/30 to-green-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: -30, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ 
+            type: "spring",
+            stiffness: 100,
+            damping: 20,
+            mass: 0.8
+          }}
           className="text-center mb-8 sm:mb-12"
         >
           <motion.div
@@ -211,17 +217,39 @@ const ManageEvents = () => {
             {events.map((event, index) => (
               <motion.div
                 key={event._id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -8, boxShadow: '0 20px 40px rgba(0,0,0,0.15)' }}
+                initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  delay: index * 0.08,
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 20,
+                  mass: 0.8
+                }}
+                whileHover={{ 
+                  y: -12,
+                  scale: 1.03,
+                  boxShadow: '0 25px 50px rgba(0,0,0,0.2)',
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
                 className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl shadow-xl overflow-hidden border border-gray-200/50 dark:border-slate-700/50 group"
               >
                 <div className="relative overflow-hidden">
-                  <img
+                  <motion.img
                     src={event.thumbnailUrl}
                     alt={event.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-48 object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ 
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 20,
+                      duration: 0.5
+                    }}
                   />
                   <div className="absolute top-3 right-3">
                     <span className="bg-green-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -251,16 +279,18 @@ const ManageEvents = () => {
                   </div>
                   <div className="flex gap-3">
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
                       onClick={() => handleEdit(event)}
                       className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white py-3 rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2 font-semibold"
                     >
                       <FaEdit /> Edit
                     </motion.button>
                     <motion.button
-                      whileHover={{ scale: 1.05 }}
+                      whileHover={{ scale: 1.05, y: -2 }}
                       whileTap={{ scale: 0.95 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 17 }}
                       onClick={() => handleDelete(event._id)}
                       className="flex-1 bg-gradient-to-r from-red-500 to-red-600 text-white py-3 rounded-xl hover:shadow-lg transition-all flex items-center justify-center gap-2 font-semibold"
                     >

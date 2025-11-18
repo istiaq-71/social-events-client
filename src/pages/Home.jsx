@@ -119,9 +119,15 @@ const Home = () => {
           </motion.div>
 
           <motion.h1
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.3 }}
+            initial={{ y: -50, opacity: 0, scale: 0.95 }}
+            animate={{ y: 0, opacity: 1, scale: 1 }}
+            transition={{ 
+              delay: 0.3,
+              type: "spring",
+              stiffness: 100,
+              damping: 15,
+              mass: 0.8
+            }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight px-2"
           >
             Build a Better Community Together
@@ -130,30 +136,42 @@ const Home = () => {
           <motion.p
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
+            transition={{ 
+              delay: 0.4,
+              type: "spring",
+              stiffness: 100,
+              damping: 20
+            }}
             className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-2"
           >
             Join social development events and make a lasting impact in your neighborhood
           </motion.p>
 
           <motion.div
-            initial={{ scale: 0.9, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.5 }}
+            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{ 
+              delay: 0.5,
+              type: "spring",
+              stiffness: 120,
+              damping: 18
+            }}
             className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2"
           >
             <Link to="/upcoming-events" className="w-full sm:w-auto">
               <motion.button
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.05, y: -2, boxShadow: "0 10px 25px rgba(34,197,94,0.4)" }}
                 whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 400, damping: 17 }}
                 className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base min-h-[44px] touch-manipulation"
               >
                 Explore Events <FaArrowRight />
               </motion.button>
             </Link>
             <motion.button
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 1.05, y: -2 }}
               whileTap={{ scale: 0.95 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
               onClick={() => {
                 const aboutSection = document.getElementById('about-section');
                 if (aboutSection) {
@@ -175,10 +193,16 @@ const Home = () => {
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
+                initial={{ opacity: 0, y: 30, scale: 0.9 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ 
+                  delay: index * 0.1,
+                  type: "spring",
+                  stiffness: 100,
+                  damping: 15
+                }}
+                whileHover={{ scale: 1.05, y: -5 }}
                 className="text-center px-2"
               >
                 <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 dark:text-green-400">
@@ -197,9 +221,15 @@ const Home = () => {
       <section id="about-section" className="w-full py-16 md:py-24 bg-gradient-to-br from-gray-50 to-blue-50/30 dark:from-slate-800 dark:to-slate-900">
         <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ 
+              type: "spring",
+              stiffness: 100,
+              damping: 20,
+              mass: 0.8
+            }}
             className="text-center mb-16"
           >
             <h2 className="text-3xl md:text-5xl font-bold mb-4">
@@ -212,10 +242,17 @@ const Home = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              initial={{ opacity: 0, x: -60, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ 
+                delay: 0.2,
+                type: "spring",
+                stiffness: 120,
+                damping: 20,
+                mass: 0.8
+              }}
+              whileHover={{ scale: 1.02, y: -5 }}
               className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg"
             >
               <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -250,10 +287,17 @@ const Home = () => {
             </motion.div>
 
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
+              initial={{ opacity: 0, x: 60, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ 
+                delay: 0.3,
+                type: "spring",
+                stiffness: 120,
+                damping: 20,
+                mass: 0.8
+              }}
+              whileHover={{ scale: 1.02, y: -5 }}
               className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg"
             >
               <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
@@ -309,10 +353,16 @@ const Home = () => {
           </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4 }}
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ 
+              delay: 0.4,
+              type: "spring",
+              stiffness: 100,
+              damping: 20,
+              mass: 0.8
+            }}
             className="mt-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl p-8 md:p-12 text-white text-center"
           >
             <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to Make a Difference?</h3>
@@ -412,15 +462,25 @@ const Home = () => {
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ 
+              type: "spring",
+              stiffness: 100,
+              damping: 20,
+              mass: 0.8
+            }}
             className="text-center mb-16"
           >
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
+              initial={{ scale: 0.9, opacity: 0, y: 20 }}
+              whileInView={{ scale: 1, opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              transition={{ 
+                delay: 0.2,
+                type: "spring",
+                stiffness: 200,
+                damping: 15
+              }}
               className="inline-block mb-4"
             >
               <span className="bg-gradient-to-r from-green-500/20 to-blue-500/20 dark:from-green-500/10 dark:to-blue-500/10 px-4 py-2 rounded-full text-sm font-semibold text-green-700 dark:text-green-400 border border-green-500/30 dark:border-green-500/20">
@@ -428,19 +488,29 @@ const Home = () => {
               </span>
             </motion.div>
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
+              transition={{ 
+                delay: 0.3,
+                type: "spring",
+                stiffness: 120,
+                damping: 18
+              }}
               className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-gray-900 via-green-600 to-blue-600 dark:from-white dark:via-green-400 dark:to-blue-400 bg-clip-text text-transparent"
             >
               Event Gallery
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
+              transition={{ 
+                delay: 0.4,
+                type: "spring",
+                stiffness: 100,
+                damping: 20
+              }}
               className="text-gray-600 dark:text-gray-400 text-lg md:text-xl"
             >
               Moments captured from our community events
@@ -453,9 +523,9 @@ const Home = () => {
                 key={index}
                 initial={{ 
                   opacity: 0, 
-                  scale: 0.5,
-                  rotateY: -50,
-                  y: 50
+                  scale: 0.8,
+                  rotateY: -20,
+                  y: 60
                 }}
                 whileInView={{ 
                   opacity: 1, 
@@ -465,91 +535,131 @@ const Home = () => {
                 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ 
-                  delay: index * 0.15,
-                  duration: 0.6,
+                  delay: index * 0.12,
                   type: "spring",
-                  stiffness: 100
+                  stiffness: 120,
+                  damping: 20,
+                  mass: 0.8
                 }}
                 whileHover={{ 
-                  scale: 1.1,
-                  rotateY: 5,
-                  rotateX: 5,
-                  z: 50,
-                  transition: { duration: 0.3 }
+                  scale: 1.08,
+                  rotateY: 3,
+                  rotateX: 2,
+                  y: -10,
+                  transition: { 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
                 }}
                 className="group relative overflow-hidden rounded-2xl shadow-xl aspect-square cursor-pointer perspective-1000"
                 style={{ transformStyle: "preserve-3d" }}
               >
-                {/* Image with parallax effect */}
                 <motion.img
                   src={image}
                   alt={`Gallery ${index + 1}`}
                   className="w-full h-full object-cover"
-                  whileHover={{ scale: 1.2 }}
-                  transition={{ duration: 0.5 }}
+                  whileHover={{ scale: 1.15 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 20,
+                    duration: 0.6
+                  }}
                 />
                 
-                {/* Gradient overlay that appears on hover */}
                 <motion.div
                   initial={{ opacity: 0 }}
                   whileHover={{ opacity: 1 }}
                   className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
-                  transition={{ duration: 0.3 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 25,
+                    duration: 0.4
+                  }}
                 />
                 
-                {/* Shine effect */}
                 <motion.div
                   initial={{ x: "-100%", opacity: 0 }}
                   whileHover={{ x: "100%", opacity: 1 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ 
+                    duration: 0.8,
+                    ease: [0.4, 0, 0.2, 1]
+                  }}
                   className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
                 />
 
-                {/* Content overlay */}
                 <motion.div
-                  initial={{ y: 20, opacity: 0 }}
+                  initial={{ y: 30, opacity: 0 }}
                   whileHover={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.1 }}
+                  transition={{ 
+                    delay: 0.1,
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 20
+                  }}
                   className="absolute bottom-0 left-0 right-0 p-6 text-white"
                 >
                   <motion.h3
-                    initial={{ x: -20, opacity: 0 }}
+                    initial={{ x: -30, opacity: 0 }}
                     whileHover={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.2 }}
+                    transition={{ 
+                      delay: 0.15,
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 20
+                    }}
                     className="text-xl font-bold mb-2"
                   >
                     Event {index + 1}
                   </motion.h3>
                   <motion.p
-                    initial={{ x: -20, opacity: 0 }}
+                    initial={{ x: -30, opacity: 0 }}
                     whileHover={{ x: 0, opacity: 1 }}
-                    transition={{ delay: 0.3 }}
+                    transition={{ 
+                      delay: 0.2,
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 20
+                    }}
                     className="text-sm text-gray-200"
                   >
                     Community Impact
                   </motion.p>
                 </motion.div>
 
-                {/* Corner accent */}
                 <motion.div
-                  initial={{ scale: 0, rotate: -45 }}
-                  whileHover={{ scale: 1, rotate: 0 }}
-                  transition={{ type: "spring", stiffness: 200 }}
+                  initial={{ scale: 0, rotate: -45, opacity: 0 }}
+                  whileHover={{ scale: 1, rotate: 0, opacity: 1 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 300,
+                    damping: 20
+                  }}
                   className="absolute top-4 right-4 w-12 h-12 bg-green-500/90 rounded-full flex items-center justify-center shadow-lg"
                 >
                   <motion.div
                     animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    transition={{ 
+                      duration: 3, 
+                      repeat: Infinity, 
+                      ease: "linear" 
+                    }}
                     className="text-white text-xl"
                   >
                     ✨
                   </motion.div>
                 </motion.div>
 
-                {/* Border glow effect */}
                 <motion.div
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  whileHover={{ opacity: 1, scale: 1 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 200,
+                    damping: 20
+                  }}
                   className="absolute inset-0 rounded-2xl border-2 border-green-400/50 shadow-[0_0_30px_rgba(34,197,94,0.5)]"
                 />
               </motion.div>
@@ -566,8 +676,17 @@ const Home = () => {
           >
             <Link to="/upcoming-events">
               <motion.button
-                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(34,197,94,0.3)" }}
+                whileHover={{ 
+                  scale: 1.08, 
+                  y: -5,
+                  boxShadow: "0 20px 40px rgba(34,197,94,0.4)" 
+                }}
                 whileTap={{ scale: 0.95 }}
+                transition={{ 
+                  type: "spring",
+                  stiffness: 400,
+                  damping: 17
+                }}
                 className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
               >
                 View All Events <FaArrowRight className="inline-block ml-2" />
@@ -611,16 +730,27 @@ const Home = () => {
         <div className="w-full max-w-7xl mx-auto px-4 md:px-8 relative z-10">
           {/* Section Header */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            initial={{ opacity: 0, y: 40, scale: 0.95 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ 
+              type: "spring",
+              stiffness: 100,
+              damping: 20,
+              mass: 0.8
+            }}
             className="text-center mb-16"
           >
             <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
+              initial={{ scale: 0.8, opacity: 0, y: 20 }}
+              whileInView={{ scale: 1, opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
+              transition={{ 
+                delay: 0.2,
+                type: "spring",
+                stiffness: 200,
+                damping: 15
+              }}
               className="inline-block mb-4"
             >
               <span className="bg-gradient-to-r from-green-500/30 to-blue-500/30 backdrop-blur-sm px-6 py-2 rounded-full text-sm font-semibold text-white border border-white/20">
@@ -628,19 +758,29 @@ const Home = () => {
               </span>
             </motion.div>
             <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.3 }}
+              transition={{ 
+                delay: 0.3,
+                type: "spring",
+                stiffness: 120,
+                damping: 18
+              }}
               className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white"
             >
               Meet the <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">Founder</span>
             </motion.h2>
             <motion.p
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: 0.4 }}
+              transition={{ 
+                delay: 0.4,
+                type: "spring",
+                stiffness: 100,
+                damping: 20
+              }}
               className="text-xl text-gray-300 max-w-2xl mx-auto"
             >
               The Visionary Behind SocialServe
@@ -650,31 +790,38 @@ const Home = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             {/* Founder Image */}
             <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
+              initial={{ opacity: 0, x: -60, scale: 0.9 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ 
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                mass: 0.8
+              }}
               className="relative"
             >
               <div className="relative">
-                {/* Glowing background */}
                 <motion.div
                   animate={{
-                    scale: [1, 1.05, 1],
-                    opacity: [0.5, 0.7, 0.5],
+                    scale: [1, 1.08, 1],
+                    opacity: [0.5, 0.75, 0.5],
                   }}
                   transition={{
-                    duration: 3,
+                    duration: 4,
                     repeat: Infinity,
-                    ease: "easeInOut"
+                    ease: [0.4, 0, 0.6, 1]
                   }}
                   className="absolute inset-0 bg-gradient-to-r from-green-500/30 to-blue-500/30 rounded-3xl blur-2xl -z-10"
                 />
                 
-                {/* Image container */}
                 <motion.div
-                  whileHover={{ scale: 1.02, rotate: 1 }}
-                  transition={{ duration: 0.3 }}
+                  whileHover={{ scale: 1.03, rotate: 2, y: -5 }}
+                  transition={{ 
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }}
                   className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 backdrop-blur-sm"
                 >
                   <img
@@ -692,10 +839,16 @@ const Home = () => {
 
                 {/* Floating badge */}
                 <motion.div
-                  initial={{ scale: 0, rotate: -180 }}
-                  whileInView={{ scale: 1, rotate: 0 }}
+                  initial={{ scale: 0, rotate: -180, opacity: 0 }}
+                  whileInView={{ scale: 1, rotate: 0, opacity: 1 }}
                   viewport={{ once: true }}
-                  transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 300,
+                    damping: 20,
+                    delay: 0.5 
+                  }}
+                  whileHover={{ scale: 1.1, rotate: 5 }}
                   className="absolute -top-6 -right-6 bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-2"
                 >
                   <FaStar className="text-yellow-300 animate-pulse" />
@@ -706,28 +859,43 @@ const Home = () => {
 
             {/* Founder Info */}
             <motion.div
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              initial={{ opacity: 0, x: 60, scale: 0.95 }}
+              whileInView={{ opacity: 1, x: 0, scale: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ 
+                type: "spring",
+                stiffness: 100,
+                damping: 20,
+                mass: 0.8,
+                delay: 0.2
+              }}
               className="space-y-6"
             >
-              {/* Name and Title */}
               <div>
                 <motion.h3
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 30, scale: 0.95 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.3 }}
+                  transition={{ 
+                    delay: 0.3,
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 18
+                  }}
                   className="text-3xl md:text-4xl font-bold text-white mb-2"
                 >
                   Md. Istiaq Hossain
                 </motion.h3>
                 <motion.p
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={{ opacity: 0, y: 15 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: 0.4 }}
+                  transition={{ 
+                    delay: 0.4,
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 20
+                  }}
                   className="text-xl text-green-400 font-semibold mb-6"
                 >
                   Founder & Visionary Leader

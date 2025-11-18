@@ -143,8 +143,14 @@ const Register = () => {
   return (
     <div className="min-h-screen flex items-center justify-center py-8 sm:py-12 px-4 sm:px-6 bg-gradient-to-br from-gray-50 via-blue-50/30 to-green-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <motion.div
-        initial={{ opacity: 0, y: 50, scale: 0.95 }}
+        initial={{ opacity: 0, y: 60, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ 
+          type: "spring",
+          stiffness: 100,
+          damping: 20,
+          mass: 0.8
+        }}
         className="max-w-md w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 border border-gray-200/50 dark:border-slate-700/50"
       >
         <motion.div
@@ -259,8 +265,9 @@ const Register = () => {
           </div>
 
           <motion.button
-            whileHover={{ scale: 1.02, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.4)' }}
-            whileTap={{ scale: 0.98 }}
+            whileHover={{ scale: 1.05, y: -3, boxShadow: '0 20px 40px rgba(16, 185, 129, 0.5)' }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
             type="submit"
             disabled={isLoading || !isPasswordValid}
             className="w-full bg-gradient-to-r from-green-600 via-green-500 to-blue-600 text-white py-3 sm:py-4 rounded-xl font-bold hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg min-h-[44px] touch-manipulation relative overflow-hidden group"
@@ -295,8 +302,9 @@ const Register = () => {
         </div>
 
         <motion.button
-          whileHover={{ scale: 1.02 }}
+          whileHover={{ scale: 1.02, y: -2 }}
           whileTap={{ scale: 0.98 }}
+          transition={{ type: "spring", stiffness: 400, damping: 17 }}
           onClick={handleGoogleSignIn}
           disabled={isLoading}
           className="w-full flex items-center justify-center space-x-2 sm:space-x-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-2 border-gray-300 dark:border-slate-600 py-3 sm:py-4 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-slate-700 transition-all disabled:opacity-50 text-base sm:text-lg shadow-lg min-h-[44px] touch-manipulation"

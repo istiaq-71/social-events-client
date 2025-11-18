@@ -139,8 +139,14 @@ const CreateEvent = () => {
   return (
     <div className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 md:px-8 bg-gray-50 dark:bg-slate-900">
       <motion.div
-        initial={{ opacity: 0, y: 50 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0, y: 60, scale: 0.95 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ 
+          type: "spring",
+          stiffness: 100,
+          damping: 20,
+          mass: 0.8
+        }}
         className="max-w-3xl mx-auto"
       >
         <div className="text-center mb-8 sm:mb-12">
@@ -291,8 +297,9 @@ const CreateEvent = () => {
 
             {/* Submit Button */}
             <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileHover={{ scale: 1.03, y: -2, boxShadow: "0 10px 25px rgba(34,197,94,0.4)" }}
+              whileTap={{ scale: 0.97 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
               type="submit"
               disabled={isLoading}
               className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 rounded-lg font-semibold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg min-h-[44px] touch-manipulation"

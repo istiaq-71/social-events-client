@@ -54,20 +54,40 @@ const UpcomingEvents = () => {
     <div className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 md:px-8 bg-gray-50 dark:bg-slate-900">
       <div className="max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
+          initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ 
+            type: "spring",
+            stiffness: 100,
+            damping: 20,
+            mass: 0.8
+          }}
           className="text-center mb-16 relative"
         >
-          {/* Decorative background elements */}
           <div className="absolute inset-0 flex items-center justify-center -z-10">
-            <div className="w-96 h-96 bg-green-500/10 dark:bg-green-500/5 rounded-full blur-3xl"></div>
+            <motion.div
+              animate={{ 
+                scale: [1, 1.1, 1],
+                opacity: [0.1, 0.15, 0.1]
+              }}
+              transition={{ 
+                duration: 8,
+                repeat: Infinity,
+                ease: "easeInOut"
+              }}
+              className="w-96 h-96 bg-green-500/10 dark:bg-green-500/5 rounded-full blur-3xl"
+            />
           </div>
-          
-          {/* Badge */}
+
           <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ delay: 0.2 }}
+            initial={{ scale: 0.8, opacity: 0, y: 20 }}
+            animate={{ scale: 1, opacity: 1, y: 0 }}
+            transition={{ 
+              delay: 0.2,
+              type: "spring",
+              stiffness: 200,
+              damping: 15
+            }}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-500/20 dark:from-green-500/10 dark:to-blue-500/10 px-4 py-2 rounded-full mb-6 backdrop-blur-sm border border-green-500/30 dark:border-green-500/20"
           >
             <FaStar className="text-green-600 dark:text-green-400 animate-pulse" />
@@ -76,11 +96,15 @@ const UpcomingEvents = () => {
             </span>
           </motion.div>
 
-          {/* Main Heading */}
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
+            initial={{ opacity: 0, y: 30, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ 
+              delay: 0.3,
+              type: "spring",
+              stiffness: 120,
+              damping: 18
+            }}
             className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 relative"
           >
             <span className="block mb-2">
@@ -93,31 +117,44 @@ const UpcomingEvents = () => {
                 Events
               </span>
             </span>
-            
-            {/* Decorative underline */}
+
             <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: '100%' }}
-              transition={{ delay: 0.6, duration: 0.8 }}
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: '100%', opacity: 1 }}
+              transition={{ 
+                delay: 0.6, 
+                duration: 1,
+                type: "spring",
+                stiffness: 100,
+                damping: 15
+              }}
               className="h-1 bg-gradient-to-r from-green-600 via-blue-500 to-green-600 rounded-full mt-4 mx-auto max-w-xs"
             />
           </motion.h1>
 
-          {/* Subtitle */}
           <motion.p
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
+            transition={{ 
+              delay: 0.5,
+              type: "spring",
+              stiffness: 100,
+              damping: 20
+            }}
             className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed"
           >
             Find and join <span className="font-semibold text-green-600 dark:text-green-400">social development events</span> in your community
           </motion.p>
 
-          {/* Stats or additional info */}
           <motion.div
-            initial={{ opacity: 0, y: 10 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7 }}
+            transition={{ 
+              delay: 0.7,
+              type: "spring",
+              stiffness: 100,
+              damping: 20
+            }}
             className="flex flex-wrap items-center justify-center gap-6 mt-8 text-sm text-gray-500 dark:text-gray-400"
           >
             <div className="flex items-center gap-2">
@@ -205,17 +242,38 @@ const UpcomingEvents = () => {
             {events.map((event, index) => (
               <motion.div
                 key={event._id}
-                initial={{ opacity: 0, y: 50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ y: -8 }}
+                initial={{ opacity: 0, y: 60, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                transition={{ 
+                  delay: index * 0.08,
+                  type: "spring",
+                  stiffness: 120,
+                  damping: 20,
+                  mass: 0.8
+                }}
+                whileHover={{ 
+                  y: -12,
+                  scale: 1.02,
+                  transition: {
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 20
+                  }
+                }}
                 className="bg-white dark:bg-slate-800 rounded-xl shadow-lg overflow-hidden border border-gray-200 dark:border-slate-700 group cursor-pointer"
               >
                 <div className="relative overflow-hidden">
-                  <img
+                  <motion.img
                     src={event.thumbnailUrl}
                     alt={event.title}
-                    className="w-full h-56 object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-56 object-cover"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ 
+                      type: "spring",
+                      stiffness: 200,
+                      damping: 20,
+                      duration: 0.5
+                    }}
                   />
                   <div className="absolute top-4 right-4">
                     <span className="bg-green-600 text-white px-4 py-2 rounded-full text-xs font-bold shadow-lg">

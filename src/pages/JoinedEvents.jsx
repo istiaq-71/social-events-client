@@ -74,8 +74,14 @@ const JoinedEvents = () => {
     <div className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 md:px-8 bg-gray-50 dark:bg-slate-800">
       <div className="w-full max-w-7xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: -30, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          transition={{ 
+            type: "spring",
+            stiffness: 100,
+            damping: 20,
+            mass: 0.8
+          }}
           className="text-center mb-8 sm:mb-12"
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 px-2">
@@ -110,10 +116,24 @@ const JoinedEvents = () => {
               return (
                 <motion.div
                   key={event._id}
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
+                  initial={{ opacity: 0, x: -60, scale: 0.95 }}
+                  animate={{ opacity: 1, x: 0, scale: 1 }}
+                  transition={{ 
+                    delay: index * 0.08,
+                    type: "spring",
+                    stiffness: 120,
+                    damping: 20,
+                    mass: 0.8
+                  }}
+                  whileHover={{ 
+                    scale: 1.02,
+                    x: 5,
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 20
+                    }
+                  }}
                   className={`bg-white dark:bg-slate-900 rounded-xl shadow-lg overflow-hidden border-l-4 transition-all ${
                     isPast 
                       ? 'border-l-gray-400 opacity-75' 
@@ -125,6 +145,12 @@ const JoinedEvents = () => {
                     <div className="sm:w-1/3 md:w-1/4 h-48 sm:h-auto overflow-hidden flex-shrink-0">
                       <motion.img
                         whileHover={{ scale: 1.1 }}
+                        transition={{ 
+                          type: "spring",
+                          stiffness: 200,
+                          damping: 20,
+                          duration: 0.5
+                        }}
                         src={event.eventThumbnail || 'https://via.placeholder.com/300'}
                         alt={event.eventTitle}
                         className="w-full h-full object-cover"
@@ -176,8 +202,9 @@ const JoinedEvents = () => {
 
                         {/* Action Button */}
                         <motion.button
-                          whileHover={{ scale: 1.05 }}
+                          whileHover={{ scale: 1.05, y: -2 }}
                           whileTap={{ scale: 0.95 }}
+                          transition={{ type: "spring", stiffness: 400, damping: 17 }}
                           onClick={() => handleRemoveEvent(event._id)}
                           className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 text-sm sm:text-base min-h-[44px] touch-manipulation"
                         >

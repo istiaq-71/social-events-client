@@ -44,8 +44,14 @@ const Navbar = () => {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ 
+        type: "spring", 
+        stiffness: 100, 
+        damping: 15,
+        mass: 0.8
+      }}
       className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-lg shadow-sm sticky top-0 z-50 border-b border-gray-100 dark:border-slate-800"
     >
       <div className="w-full max-w-7xl mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
@@ -54,6 +60,7 @@ const Navbar = () => {
           <Link to="/" className="flex items-center space-x-1 sm:space-x-2 group min-w-0 flex-shrink-0">
             <motion.div
               whileHover={{ scale: 1.1, rotate: 5 }}
+              transition={{ type: "spring", stiffness: 300, damping: 20 }}
               className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent flex items-center space-x-1"
             >
               <FaLeaf className="text-green-600 text-base sm:text-lg md:text-xl lg:text-2xl flex-shrink-0" />
@@ -134,8 +141,9 @@ const Navbar = () => {
 
                 {/* Logout Button - Visible in Navbar */}
                 <motion.button
-                  whileHover={{ scale: 1.05 }}
+                  whileHover={{ scale: 1.05, y: -2 }}
                   whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
                   onClick={handleLogout}
                   className="hidden lg:flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-2 rounded-lg font-semibold shadow-lg transition-all text-sm sm:text-base touch-manipulation min-h-[44px]"
                   title="Logout"
