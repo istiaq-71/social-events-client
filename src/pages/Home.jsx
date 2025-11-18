@@ -68,7 +68,20 @@ const Home = () => {
     setIsSubscribing(true);
     
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      // Get API URL - check both env variable and fallback
+      let apiUrl = import.meta.env.VITE_API_URL;
+      if (!apiUrl) {
+        // If no env variable, try to detect if we're in production
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+          // In production, use the deployed server URL
+          apiUrl = 'https://social-events-server.vercel.app';
+        } else {
+          apiUrl = 'http://localhost:5000';
+        }
+      }
+      console.log('Subscribing with API URL:', apiUrl);
+      console.log('Email:', email.trim());
+      
       const response = await fetch(`${apiUrl}/api/subscribe`, {
         method: 'POST',
         headers: {
@@ -77,17 +90,25 @@ const Home = () => {
         body: JSON.stringify({ email: email.trim() })
       });
 
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (response.ok) {
         toast.success('Successfully subscribed to newsletter! 🎉');
         setEmail(''); // Clear the input
       } else {
+        console.error('Subscription failed:', data);
         toast.error(data.message || 'Failed to subscribe. Please try again.');
       }
     } catch (error) {
       console.error('Error subscribing:', error);
-      toast.error('Error subscribing. Please try again later.');
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        name: error.name
+      });
+      toast.error(`Error subscribing: ${error.message}. Please check console for details.`);
     } finally {
       setIsSubscribing(false);
     }
