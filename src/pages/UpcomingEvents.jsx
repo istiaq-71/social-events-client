@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaMapMarkerAlt, FaSearch, FaSparkles } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaSearch, FaStar } from 'react-icons/fa';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const UpcomingEvents = () => {
@@ -72,7 +72,7 @@ const UpcomingEvents = () => {
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-500/20 dark:from-green-500/10 dark:to-blue-500/10 px-4 py-2 rounded-full mb-6 backdrop-blur-sm border border-green-500/30 dark:border-green-500/20"
           >
-            <FaSparkles className="text-green-600 dark:text-green-400 animate-pulse" />
+            <FaStar className="text-green-600 dark:text-green-400 animate-pulse" />
             <span className="text-sm font-semibold text-green-700 dark:text-green-400">
               Discover & Join
             </span>
@@ -133,7 +133,7 @@ const UpcomingEvents = () => {
             </div>
             <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
             <div className="flex items-center gap-2">
-              <FaSparkles className="text-purple-600 dark:text-purple-400" />
+              <FaStar className="text-purple-600 dark:text-purple-400" />
               <span>Make an Impact</span>
             </div>
           </motion.div>
