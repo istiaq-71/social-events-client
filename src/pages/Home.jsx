@@ -167,6 +167,12 @@ const Home = () => {
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => {
+                const aboutSection = document.getElementById('about-section');
+                if (aboutSection) {
+                  aboutSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-all"
             >
               Learn More
@@ -197,6 +203,146 @@ const Home = () => {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about-section" className="w-full py-16 md:py-24 bg-gradient-to-br from-gray-50 to-blue-50/30 dark:from-slate-800 dark:to-slate-900">
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-3xl md:text-5xl font-bold mb-4">
+              About <span className="text-green-600 dark:text-green-400">SocialServe</span>
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-lg max-w-3xl mx-auto">
+              Your platform for organizing and joining meaningful social development events
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                What We Do
+              </h3>
+              <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                SocialServe is a community-driven platform that connects individuals and organizations 
+                to create positive social impact. We facilitate various types of events including:
+              </p>
+              <ul className="space-y-2 text-gray-600 dark:text-gray-300">
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+                  <span><strong>Cleanup Events:</strong> Beach cleanups, park beautification, river restoration</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+                  <span><strong>Plantation Drives:</strong> Tree planting, community gardens, reforestation</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+                  <span><strong>Donation Campaigns:</strong> Clothes, food, school supplies, blood donation</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+                  <span><strong>Education Programs:</strong> Workshops, literacy programs, skill development</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-green-600 dark:text-green-400 mt-1">✓</span>
+                  <span><strong>Healthcare Initiatives:</strong> Health camps, awareness sessions, medical support</span>
+                </li>
+              </ul>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="bg-white dark:bg-slate-800 p-8 rounded-2xl shadow-lg"
+            >
+              <h3 className="text-2xl font-bold mb-4 text-gray-900 dark:text-white">
+                How It Works
+              </h3>
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                    1
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Create or Discover Events</h4>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Browse upcoming events in your area or create your own event to bring people together for a cause.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                    2
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Join Events</h4>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Simply click "Join Event" to participate. Track all your joined events in one place.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                    3
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Make an Impact</h4>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      Show up on the event date and contribute to making your community a better place.
+                    </p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="flex-shrink-0 w-12 h-12 bg-orange-600 text-white rounded-full flex items-center justify-center font-bold text-lg">
+                    4
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-gray-900 dark:text-white mb-2">Manage Your Events</h4>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm">
+                      If you created an event, manage it easily - update details, see participants, and more.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+            className="mt-12 bg-gradient-to-r from-green-600 to-blue-600 rounded-2xl p-8 md:p-12 text-white text-center"
+          >
+            <h3 className="text-2xl md:text-3xl font-bold mb-4">Ready to Make a Difference?</h3>
+            <p className="text-lg mb-6 text-green-100 max-w-2xl mx-auto">
+              Join thousands of volunteers who are actively working to create positive change in their communities. 
+              Every small action counts, and together we can achieve great things.
+            </p>
+            <Link to="/upcoming-events">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white text-green-600 px-8 py-4 rounded-lg font-semibold hover:shadow-xl transition-all"
+              >
+                Get Started Now <FaArrowRight className="inline-block ml-2" />
+              </motion.button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
