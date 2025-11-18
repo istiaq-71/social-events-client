@@ -1,180 +1,95 @@
-# SocialServe - Community Social Development Events Platform
+# SocialServe
 
-## 🌍 Live Site
-**URL:** [Add your live site URL here after deployment]
+## 🌐 Live Site
+**URL:** https://social-events-client.vercel.app
 
-## 📱 Project Overview
-SocialServe is a modern community-driven event management platform that empowers users to create, discover, join, and manage social development events in their local areas. Whether it's road cleaning initiatives, tree plantations, or donation drives, SocialServe connects passionate individuals to make a real impact in their communities.
+## 📱 About
+SocialServe is a modern community-driven platform that empowers individuals to create, discover, and join social development events in their local communities. From road cleaning initiatives to tree plantations and donation drives, SocialServe connects passionate people who want to make a positive impact.
 
 ## ✨ Key Features
 
-- **🎯 Community Event Management** - Create and organize social development events with detailed information and beautiful UI
-- **🔍 Smart Event Discovery** - Browse upcoming events with advanced filtering and real-time search capabilities powered by MongoDB
-- **🔐 Seamless Authentication** - Secure email/password and Google OAuth authentication with password validation
-- **🌓 Dark Mode Support** - Modern theme toggling with smooth transitions for comfortable viewing in any lighting condition
-- **📅 Event Participation Tracking** - Track all events you've joined with automatic date-sorted organization
-- **⚙️ Event Creator Dashboard** - Comprehensive dashboard to manage your created events with full update and delete capabilities
-- **📱 Fully Responsive Design** - Beautiful, modern UI optimized for mobile, tablet, and desktop devices
-- **🔔 Real-time Notifications** - Beautiful toast notifications for all user actions and feedback (no default alerts)
-- **✨ Modern Animations** - Smooth Framer Motion animations throughout for enhanced user experience
-- **🎨 Custom Date Picker** - Beautiful, accessible custom date picker component (no external dependencies)
-- **🎭 Glassmorphism Design** - Modern glassmorphism effects with backdrop blur for a premium look
+• **Event Management System** - Create, manage, and organize social development events with comprehensive details including event type, location, date, and descriptions
 
-## 🎨 Tech Stack
+• **Advanced Search & Filter** - Real-time search functionality and event type filtering powered by MongoDB backend for quick event discovery
 
-### Frontend
-- **React 19** - Modern UI library
-- **React Router v7** - Client-side routing
-- **Tailwind CSS** - Utility-first CSS framework
-- **Framer Motion** - Smooth animations and interactions
-- **Firebase** - Authentication & hosting
-- **React Hot Toast** - Beautiful toast notifications
-- **Custom Date Picker** - Beautiful custom-built date picker component
-- **React Icons** - Icon library
+• **User Authentication** - Secure email/password authentication with password validation and Google OAuth integration for seamless login experience
 
-### Backend
-- **Node.js & Express** - Server runtime and framework
-- **MongoDB** - NoSQL database
-- **Vercel** - Server hosting
+• **Event Participation Tracking** - Join events and track all your participations in a dedicated dashboard with automatic date-based sorting
 
-## 🚀 Getting Started
+• **Responsive Design** - Fully responsive interface optimized for mobile phones, tablets, and desktop computers with touch-friendly interactions
+
+• **Dark Mode Support** - Modern theme switching with smooth transitions between light and dark modes for comfortable viewing in any environment
+
+• **Event Gallery** - Beautiful visual showcase of community events with interactive animations and hover effects
+
+• **Newsletter Subscription** - Stay updated with community activities through integrated newsletter subscription system
+
+## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js (v16+)
-- npm or yarn
-- Git
+- Node.js (v16 or higher)
+- npm or yarn package manager
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <client-repo-url>
-   cd social-events-client
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Setup Environment Variables**
-   Create a `.env.local` file in the root directory:
-   ```env
-   VITE_API_URL=http://localhost:5000
-   VITE_FIREBASE_API_KEY=your_firebase_api_key
-   VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
-   VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
-   VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
-   VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
-   VITE_FIREBASE_APP_ID=your_firebase_app_id
-   ```
-
-4. **Run the development server**
-   ```bash
-   npm run dev
-   ```
-   The app will open at `http://localhost:5173`
-
-## 📖 Usage Guide
-
-### For Users
-1. **Register/Login** - Create an account or sign in with Google
-2. **Browse Events** - Explore upcoming events on the Upcoming Events page
-3. **Search & Filter** - Use search and event type filters to find relevant events
-4. **View Details** - Click on any event to see full details
-5. **Join Events** - Click "Join Event" to register your participation
-6. **Track Participation** - View all joined events in "My Joined Events"
-
-### For Event Creators
-1. **Create Event** - Click "Create Event" in the profile dropdown
-2. **Fill Details** - Provide event title, description, type, location, and date
-3. **Manage Events** - Access "Manage Events" to edit or delete your events
-4. **Update Information** - Modify event details as needed
-
-## 🎯 Main Pages
-
-| Page | Type | Description |
-|------|------|-------------|
-| **Home** | Public | Hero section, features showcase, event gallery, newsletter signup |
-| **Upcoming Events** | Public | Displays all upcoming events with search and filter functionality |
-| **Event Details** | Public | Shows full event information with join button |
-| **Login** | Public | Email/password and Google authentication |
-| **Register** | Public | User registration with profile setup |
-| **Create Event** | Private | Form to create new social events |
-| **Manage Events** | Private | Dashboard to view, edit, and delete created events |
-| **Joined Events** | Private | Shows all events the user has joined, sorted by date |
-
-## 🔐 Authentication Features
-- Email and password-based authentication
-- Google OAuth integration
-- Password validation (uppercase, lowercase, minimum 6 characters)
-- Protected routes for authenticated users
-- Persistent authentication state
-
-## 🎨 Design Highlights
-- **Modern UI** - Clean, intuitive interface with gradient accents
-- **Responsive Layout** - Mobile-first approach ensuring perfect layout on all devices
-- **Dark Mode** - Full dark theme support with smooth transitions
-- **Smooth Animations** - Framer Motion for delightful interactions
-- **Consistent Branding** - Green and blue gradient color scheme throughout
-- **Accessibility** - Proper semantic HTML and ARIA labels
-
-## 🔧 Available Scripts
-
+1. Clone the repository
 ```bash
-# Start development server
+git clone https://github.com/istiaq-71/social-events-client.git
+cd social-events-client
+```
+
+2. Install dependencies
+```bash
+npm install
+```
+
+3. Create environment file
+Create a `.env.local` file in the root directory:
+```env
+VITE_API_URL=http://localhost:5000
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_firebase_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_firebase_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
+VITE_FIREBASE_APP_ID=your_firebase_app_id
+```
+
+4. Start development server
+```bash
 npm run dev
-
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-
-# Run ESLint
-npm run lint
 ```
 
-## 📦 Dependencies
-- react: ^19.2.0
-- react-dom: ^19.2.0
-- react-router-dom: ^7.9.5
-- tailwindcss: ^4.1.17
-- firebase: ^12.5.0
-- framer-motion: ^12.23.24
-- react-hot-toast: ^2.6.0
-- react-datepicker: ^8.9.0
-- react-icons: ^5.5.0
+The application will be available at `http://localhost:5173`
 
-## 🌐 Deployment
+## 🛠️ Tech Stack
 
-### Frontend Deployment (Netlify/Firebase)
+**Frontend:**
+- React 19
+- React Router v7
+- Tailwind CSS
+- Framer Motion
+- Firebase Authentication
+- React Hot Toast
+
+**Backend:**
+- Node.js & Express
+- MongoDB
+- Vercel Serverless Functions
+
+## 📄 Available Scripts
+
 ```bash
-npm run build
-# Deploy the 'dist' folder
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
+npm run lint     # Run ESLint
 ```
 
-### Backend Deployment (Vercel)
-```bash
-vercel deploy
-```
+## 📝 License
 
-## 📝 Notes for Developers
-- Ensure all environment variables are set before running
-- The app uses MongoDB Atlas for the database
-- Firebase is configured for authentication
-- All API calls are made to the backend server
-- Dark mode preference is stored in localStorage via ThemeProvider
-
-## 🤝 Contributing
-Feel free to fork, submit issues, and create pull requests to improve the platform.
-
-## 📄 License
 This project is open source and available under the MIT License.
-
-## 📧 Support
-For questions or support, please reach out to info@socialserve.com
 
 ---
 
-**Made with ❤️ for community development**
+**Built with ❤️ for community development**
