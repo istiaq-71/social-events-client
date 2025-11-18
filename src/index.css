@@ -72,3 +72,18 @@
 .dark .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
   border-color: rgb(51 65 85);
 }
+
+/* Gradient animation for text */
+@keyframes gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}

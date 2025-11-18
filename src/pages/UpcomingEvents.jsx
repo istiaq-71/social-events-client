@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaMapMarkerAlt, FaSearch } from 'react-icons/fa';
+import { FaCalendarAlt, FaMapMarkerAlt, FaSearch, FaSparkles } from 'react-icons/fa';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const UpcomingEvents = () => {
@@ -58,14 +58,85 @@ const UpcomingEvents = () => {
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-16 relative"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
-            Upcoming <span className="text-green-600 dark:text-green-400">Events</span>
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Find and join social development events in your community
-          </p>
+          {/* Decorative background elements */}
+          <div className="absolute inset-0 flex items-center justify-center -z-10">
+            <div className="w-96 h-96 bg-green-500/10 dark:bg-green-500/5 rounded-full blur-3xl"></div>
+          </div>
+          
+          {/* Badge */}
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500/20 to-blue-500/20 dark:from-green-500/10 dark:to-blue-500/10 px-4 py-2 rounded-full mb-6 backdrop-blur-sm border border-green-500/30 dark:border-green-500/20"
+          >
+            <FaSparkles className="text-green-600 dark:text-green-400 animate-pulse" />
+            <span className="text-sm font-semibold text-green-700 dark:text-green-400">
+              Discover & Join
+            </span>
+          </motion.div>
+
+          {/* Main Heading */}
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 relative"
+          >
+            <span className="block mb-2">
+              <span className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 dark:from-white dark:via-gray-100 dark:to-white bg-clip-text text-transparent">
+                Upcoming
+              </span>
+            </span>
+            <span className="block">
+              <span className="bg-gradient-to-r from-green-600 via-green-500 to-blue-600 dark:from-green-400 dark:via-green-300 dark:to-blue-400 bg-clip-text text-transparent animate-gradient">
+                Events
+              </span>
+            </span>
+            
+            {/* Decorative underline */}
+            <motion.div
+              initial={{ width: 0 }}
+              animate={{ width: '100%' }}
+              transition={{ delay: 0.6, duration: 0.8 }}
+              className="h-1 bg-gradient-to-r from-green-600 via-blue-500 to-green-600 rounded-full mt-4 mx-auto max-w-xs"
+            />
+          </motion.h1>
+
+          {/* Subtitle */}
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="text-lg md:text-xl text-gray-600 dark:text-gray-300 max-w-2xl mx-auto leading-relaxed"
+          >
+            Find and join <span className="font-semibold text-green-600 dark:text-green-400">social development events</span> in your community
+          </motion.p>
+
+          {/* Stats or additional info */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7 }}
+            className="flex flex-wrap items-center justify-center gap-6 mt-8 text-sm text-gray-500 dark:text-gray-400"
+          >
+            <div className="flex items-center gap-2">
+              <FaCalendarAlt className="text-green-600 dark:text-green-400" />
+              <span>Live Events</span>
+            </div>
+            <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+            <div className="flex items-center gap-2">
+              <FaMapMarkerAlt className="text-blue-600 dark:text-blue-400" />
+              <span>Multiple Locations</span>
+            </div>
+            <div className="w-1 h-1 bg-gray-400 rounded-full"></div>
+            <div className="flex items-center gap-2">
+              <FaSparkles className="text-purple-600 dark:text-purple-400" />
+              <span>Make an Impact</span>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Filter and Search Section */}
