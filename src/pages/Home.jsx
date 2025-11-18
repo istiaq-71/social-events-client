@@ -5,8 +5,8 @@ import { FaUsers, FaCalendarAlt, FaHandsHelping, FaMapMarkerAlt, FaArrowRight, F
 import toast from 'react-hot-toast';
 
 const Home = () => {
-  // Founder photo URL - Google Drive direct link
-  const FOUNDER_PHOTO_URL = 'https://drive.google.com/uc?export=view&id=1WKqXQlPWev1_U0PU4xT9JxtKF1JtQTLx';
+  // Founder photo URL - Imgur direct link
+  const FOUNDER_PHOTO_URL = 'https://i.imgur.com/pyCUtn2.jpg';
   
   const [email, setEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
@@ -697,7 +697,9 @@ const Home = () => {
                     src={FOUNDER_PHOTO_URL}
                     alt="Md. Istiaq Hossain - Founder of SocialServe"
                     className="w-full h-auto object-cover"
+                    loading="lazy"
                     onError={(e) => {
+                      console.error('Failed to load founder image, using fallback');
                       e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop';
                     }}
                   />
