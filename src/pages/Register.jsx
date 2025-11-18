@@ -88,27 +88,25 @@ const Register = () => {
 
     setIsLoading(true);
     createUser(formData.email, formData.password)
-      .then(() => {
-        updateUserProfile(formData.name, formData.photoURL)
           .then(() => {
-            toast.success('Account created successfully! Welcome 🎉');
-            navigate('/');
+            updateUserProfile(formData.name, formData.photoURL)
+              .then(() => {
+                toast.success('Account created successfully! Welcome 🎉');
+                navigate('/');
+              })
+              .catch(() => {
+                toast.error('Error updating profile. Please try again.');
+              });
           })
           .catch((error) => {
-            toast.error('Error updating profile. Please try again.');
-            console.error(error);
-          });
-      })
-      .catch((error) => {
-        if (error.code === 'auth/email-already-in-use') {
-          toast.error('This email is already registered. Please log in instead.');
-        } else if (error.code === 'auth/weak-password') {
-          toast.error('Password is too weak. Please use a stronger password.');
-        } else {
-          toast.error('Registration failed. Please try again.');
-        }
-        console.error(error);
-      })
+            if (error.code === 'auth/email-already-in-use') {
+              toast.error('This email is already registered. Please log in instead.');
+            } else if (error.code === 'auth/weak-password') {
+              toast.error('Password is too weak. Please use a stronger password.');
+            } else {
+              toast.error('Registration failed. Please try again.');
+            }
+          })
       .finally(() => {
         setIsLoading(false);
       });
@@ -121,9 +119,8 @@ const Register = () => {
         toast.success('Registered with Google successfully! 🎉');
         navigate('/');
       })
-      .catch((error) => {
+      .catch(() => {
         toast.error('Google sign-up failed. Please try again.');
-        console.error(error);
       })
       .finally(() => {
         setIsLoading(false);

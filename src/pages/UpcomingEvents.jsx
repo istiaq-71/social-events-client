@@ -28,20 +28,18 @@ const UpcomingEvents = () => {
       const data = await response.json();
       setEvents(data);
     } catch (error) {
-      console.error('Error fetching events:', error);
+      toast.error('Failed to load events');
     } finally {
       setLoading(false);
     }
   };
 
-  // Debounce search to avoid too many API calls
   useEffect(() => {
     const timer = setTimeout(() => {
       fetchEvents();
-    }, 500); // Wait 500ms after user stops typing
+    }, 500);
 
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, eventType]);
 
   if (loading) {

@@ -29,7 +29,7 @@ const EventDetails = () => {
       const data = await response.json();
       setEvent(data);
     } catch (error) {
-      console.error('Error fetching event:', error);
+      toast.error('Failed to load event details');
     } finally {
       setLoading(false);
     }
@@ -44,7 +44,6 @@ const EventDetails = () => {
       const data = await response.json();
       setHasJoined(data.joined);
     } catch (error) {
-      console.error('Error checking join status:', error);
     }
   };
 

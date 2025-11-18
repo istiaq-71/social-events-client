@@ -23,14 +23,12 @@ const JoinedEvents = () => {
       );
       const data = await response.json();
       
-      // Sort events by date
       const sortedEvents = data.sort((a, b) => 
         new Date(a.eventDate) - new Date(b.eventDate)
       );
       
       setEvents(sortedEvents);
     } catch (error) {
-      console.error('Error fetching joined events:', error);
       toast.error('Failed to load joined events');
     } finally {
       setLoading(false);
@@ -58,10 +56,8 @@ const JoinedEvents = () => {
         fetchJoinedEvents();
       } else {
         toast.error(data.message || 'Failed to remove event');
-        console.error('Remove error:', data);
       }
     } catch (error) {
-      console.error('Error removing event:', error);
       toast.error('Error removing event. Please try again.');
     }
   };

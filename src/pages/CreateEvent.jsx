@@ -112,8 +112,6 @@ const CreateEvent = () => {
     setIsLoading(true);
     try {
       const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-      console.log('Creating event with API URL:', apiUrl);
-      console.log('Event data:', eventData);
       
       const response = await fetch(`${apiUrl}/api/events`, {
         method: 'POST',
@@ -124,7 +122,6 @@ const CreateEvent = () => {
       });
 
       const data = await response.json();
-      console.log('API Response:', data);
 
       if (response.ok) {
         toast.success('Event created successfully! 🎉');
@@ -133,12 +130,7 @@ const CreateEvent = () => {
         toast.error(data.message || 'Failed to create event. Please try again.');
       }
     } catch (error) {
-      console.error('Error creating event:', error);
-      console.error('Error details:', {
-        message: error.message,
-        stack: error.stack
-      });
-      toast.error('Error creating event. Check console for details.');
+      toast.error('Error creating event. Please try again.');
     } finally {
       setIsLoading(false);
     }

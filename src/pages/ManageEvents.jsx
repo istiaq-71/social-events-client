@@ -30,7 +30,7 @@ const ManageEvents = () => {
       const data = await response.json();
       setEvents(data);
     } catch (error) {
-      console.error('Error fetching events:', error);
+      toast.error('Failed to load events');
     } finally {
       setLoading(false);
     }
@@ -157,10 +157,8 @@ const ManageEvents = () => {
         fetchMyEvents();
       } else {
         toast.error(data.message || 'Failed to delete event');
-        console.error('Delete error:', data);
       }
     } catch (error) {
-      console.error('Error deleting event:', error);
       toast.error('Error deleting event. Please try again.');
     }
   };

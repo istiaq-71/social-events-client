@@ -5,7 +5,6 @@ import { FaUsers, FaCalendarAlt, FaHandsHelping, FaMapMarkerAlt, FaArrowRight, F
 import toast from 'react-hot-toast';
 
 const Home = () => {
-  // Founder photo URL - Imgur direct link
   const FOUNDER_PHOTO_URL = 'https://i.imgur.com/pyCUtn2.jpg';
   
   const [email, setEmail] = useState('');
@@ -56,7 +55,6 @@ const Home = () => {
   const handleSubscribe = async (e) => {
     e.preventDefault();
     
-    // Validate email
     if (!email.trim()) {
       toast.error('Please enter your email address');
       return;
@@ -71,19 +69,14 @@ const Home = () => {
     setIsSubscribing(true);
     
     try {
-      // Get API URL - check both env variable and fallback
       let apiUrl = import.meta.env.VITE_API_URL;
       if (!apiUrl) {
-        // If no env variable, try to detect if we're in production
         if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-          // In production, use the deployed server URL
           apiUrl = 'https://social-events-server.vercel.app';
         } else {
           apiUrl = 'http://localhost:5000';
         }
       }
-      console.log('Subscribing with API URL:', apiUrl);
-      console.log('Email:', email.trim());
       
       const response = await fetch(`${apiUrl}/api/subscribe`, {
         method: 'POST',
@@ -93,25 +86,16 @@ const Home = () => {
         body: JSON.stringify({ email: email.trim() })
       });
 
-      console.log('Response status:', response.status);
       const data = await response.json();
-      console.log('Response data:', data);
 
       if (response.ok) {
         toast.success('Successfully subscribed to newsletter! 🎉');
-        setEmail(''); // Clear the input
+        setEmail('');
       } else {
-        console.error('Subscription failed:', data);
         toast.error(data.message || 'Failed to subscribe. Please try again.');
       }
     } catch (error) {
-      console.error('Error subscribing:', error);
-      console.error('Error details:', {
-        message: error.message,
-        stack: error.stack,
-        name: error.name
-      });
-      toast.error(`Error subscribing: ${error.message}. Please check console for details.`);
+      toast.error('Failed to subscribe. Please try again later.');
     } finally {
       setIsSubscribing(false);
     }
@@ -698,10 +682,9 @@ const Home = () => {
                     alt="Md. Istiaq Hossain - Founder of SocialServe"
                     className="w-full h-auto object-cover"
                     loading="lazy"
-                    onError={(e) => {
-                      console.error('Failed to load founder image, using fallback');
-                      e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop';
-                    }}
+                      onError={(e) => {
+                        e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop';
+                      }}
                   />
                   {/* Overlay gradient */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
