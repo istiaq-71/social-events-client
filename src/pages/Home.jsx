@@ -390,39 +390,203 @@ const Home = () => {
       </section>
 
       {/* Gallery Section */}
-      <section className="w-full py-16 md:py-24 bg-gray-50 dark:bg-slate-800">
-        <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
+      <section className="w-full py-16 md:py-24 bg-gradient-to-b from-gray-50 via-white to-gray-50 dark:from-slate-800 dark:via-slate-900 dark:to-slate-800 relative overflow-hidden">
+        {/* Animated background elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <motion.div
+            animate={{
+              x: [0, 100, 0],
+              y: [0, 50, 0],
+              rotate: [0, 90, 0],
+            }}
+            transition={{
+              duration: 20,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute top-20 left-10 w-72 h-72 bg-green-500/5 dark:bg-green-500/3 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{
+              x: [0, -100, 0],
+              y: [0, -50, 0],
+              rotate: [0, -90, 0],
+            }}
+            transition={{
+              duration: 25,
+              repeat: Infinity,
+              ease: "linear"
+            }}
+            className="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/5 dark:bg-blue-500/3 rounded-full blur-3xl"
+          />
+        </div>
+
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-8 relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
             className="text-center mb-16"
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4">Event Gallery</h2>
-            <p className="text-gray-600 dark:text-gray-400 text-lg">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="inline-block mb-4"
+            >
+              <span className="bg-gradient-to-r from-green-500/20 to-blue-500/20 dark:from-green-500/10 dark:to-blue-500/10 px-4 py-2 rounded-full text-sm font-semibold text-green-700 dark:text-green-400 border border-green-500/30 dark:border-green-500/20">
+                📸 Photo Gallery
+              </span>
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 bg-gradient-to-r from-gray-900 via-green-600 to-blue-600 dark:from-white dark:via-green-400 dark:to-blue-400 bg-clip-text text-transparent"
+            >
+              Event Gallery
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="text-gray-600 dark:text-gray-400 text-lg md:text-xl"
+            >
               Moments captured from our community events
-            </p>
+            </motion.p>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             {galleryImages.map((image, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.08 }}
-                className="overflow-hidden rounded-2xl shadow-lg aspect-square cursor-pointer"
+                initial={{ 
+                  opacity: 0, 
+                  scale: 0.5,
+                  rotateY: -50,
+                  y: 50
+                }}
+                whileInView={{ 
+                  opacity: 1, 
+                  scale: 1,
+                  rotateY: 0,
+                  y: 0
+                }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ 
+                  delay: index * 0.15,
+                  duration: 0.6,
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  scale: 1.1,
+                  rotateY: 5,
+                  rotateX: 5,
+                  z: 50,
+                  transition: { duration: 0.3 }
+                }}
+                className="group relative overflow-hidden rounded-2xl shadow-xl aspect-square cursor-pointer perspective-1000"
+                style={{ transformStyle: "preserve-3d" }}
               >
-                <img
+                {/* Image with parallax effect */}
+                <motion.img
                   src={image}
                   alt={`Gallery ${index + 1}`}
-                  className="w-full h-full object-cover hover:brightness-110 transition-all duration-300"
+                  className="w-full h-full object-cover"
+                  whileHover={{ scale: 1.2 }}
+                  transition={{ duration: 0.5 }}
+                />
+                
+                {/* Gradient overlay that appears on hover */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+                  transition={{ duration: 0.3 }}
+                />
+                
+                {/* Shine effect */}
+                <motion.div
+                  initial={{ x: "-100%", opacity: 0 }}
+                  whileHover={{ x: "100%", opacity: 1 }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12"
+                />
+
+                {/* Content overlay */}
+                <motion.div
+                  initial={{ y: 20, opacity: 0 }}
+                  whileHover={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.1 }}
+                  className="absolute bottom-0 left-0 right-0 p-6 text-white"
+                >
+                  <motion.h3
+                    initial={{ x: -20, opacity: 0 }}
+                    whileHover={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.2 }}
+                    className="text-xl font-bold mb-2"
+                  >
+                    Event {index + 1}
+                  </motion.h3>
+                  <motion.p
+                    initial={{ x: -20, opacity: 0 }}
+                    whileHover={{ x: 0, opacity: 1 }}
+                    transition={{ delay: 0.3 }}
+                    className="text-sm text-gray-200"
+                  >
+                    Community Impact
+                  </motion.p>
+                </motion.div>
+
+                {/* Corner accent */}
+                <motion.div
+                  initial={{ scale: 0, rotate: -45 }}
+                  whileHover={{ scale: 1, rotate: 0 }}
+                  transition={{ type: "spring", stiffness: 200 }}
+                  className="absolute top-4 right-4 w-12 h-12 bg-green-500/90 rounded-full flex items-center justify-center shadow-lg"
+                >
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="text-white text-xl"
+                  >
+                    ✨
+                  </motion.div>
+                </motion.div>
+
+                {/* Border glow effect */}
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  className="absolute inset-0 rounded-2xl border-2 border-green-400/50 shadow-[0_0_30px_rgba(34,197,94,0.5)]"
                 />
               </motion.div>
             ))}
           </div>
+
+          {/* View More Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 1 }}
+            className="text-center mt-12"
+          >
+            <Link to="/upcoming-events">
+              <motion.button
+                whileHover={{ scale: 1.05, boxShadow: "0 20px 40px rgba(34,197,94,0.3)" }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-gradient-to-r from-green-600 to-blue-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-xl transition-all"
+              >
+                View All Events <FaArrowRight className="inline-block ml-2" />
+              </motion.button>
+            </Link>
+          </motion.div>
         </div>
       </section>
 
