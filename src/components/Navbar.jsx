@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
 import { useTheme } from '../providers/ThemeProvider';
-import { FaSun, FaMoon, FaBars, FaTimes, FaLeaf } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaLeaf, FaSignOutAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -77,60 +77,69 @@ const Navbar = () => {
             </button>
 
             {user ? (
-              <div className="relative hidden md:block">
-                <button
-                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                  className="flex items-center space-x-2 focus:outline-none group"
-                >
-                  <motion.img
-                    whileHover={{ scale: 1.1 }}
-                    src={user.photoURL || 'https://via.placeholder.com/40'}
-                    alt={user.displayName}
-                    className="w-10 h-10 rounded-full border-2 border-primary object-cover"
-                    title={user.displayName}
-                  />
-                </button>
-
-                {isDropdownOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
-                    className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-xl py-2 border border-gray-100 dark:border-slate-700"
+              <div className="flex items-center space-x-3">
+                {/* Profile Picture with Dropdown */}
+                <div className="relative hidden md:block">
+                  <button
+                    onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                    className="flex items-center space-x-2 focus:outline-none group"
                   >
-                    <div className="px-4 py-3 border-b border-gray-100 dark:border-slate-700">
-                      <p className="font-semibold text-gray-900 dark:text-white truncate">{user.displayName}</p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
-                    </div>
-                    <Link
-                      to="/create-event"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
+                    <motion.img
+                      whileHover={{ scale: 1.1 }}
+                      src={user.photoURL || 'https://via.placeholder.com/40'}
+                      alt={user.displayName}
+                      className="w-10 h-10 rounded-full border-2 border-primary object-cover"
+                      title={user.displayName}
+                    />
+                  </button>
+
+                  {isDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-xl shadow-xl py-2 border border-gray-100 dark:border-slate-700 z-50"
                     >
-                      ➕ Create Event
-                    </Link>
-                    <Link
-                      to="/manage-events"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
-                    >
-                      📋 Manage Events
-                    </Link>
-                    <Link
-                      to="/joined-events"
-                      onClick={() => setIsDropdownOpen(false)}
-                      className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
-                    >
-                      ✓ Joined Events
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2.5 hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400 transition-colors border-t border-gray-100 dark:border-slate-700 mt-2 pt-2"
-                    >
-                      🚪 Logout
-                    </button>
-                  </motion.div>
-                )}
+                      <div className="px-4 py-3 border-b border-gray-100 dark:border-slate-700">
+                        <p className="font-semibold text-gray-900 dark:text-white truncate">{user.displayName}</p>
+                        <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
+                      </div>
+                      <Link
+                        to="/create-event"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
+                      >
+                        ➕ Create Event
+                      </Link>
+                      <Link
+                        to="/manage-events"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
+                      >
+                        📋 Manage Events
+                      </Link>
+                      <Link
+                        to="/joined-events"
+                        onClick={() => setIsDropdownOpen(false)}
+                        className="block px-4 py-2.5 hover:bg-gray-50 dark:hover:bg-slate-700 text-gray-700 dark:text-gray-300 transition-colors"
+                      >
+                        ✓ Joined Events
+                      </Link>
+                    </motion.div>
+                  )}
+                </div>
+
+                {/* Logout Button - Visible in Navbar */}
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={handleLogout}
+                  className="hidden md:flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-semibold shadow-lg transition-all"
+                  title="Logout"
+                >
+                  <FaSignOutAlt />
+                  <span>Logout</span>
+                </motion.button>
               </div>
             ) : (
               <Link to="/login" className="hidden md:block">
