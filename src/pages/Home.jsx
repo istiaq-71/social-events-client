@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { FaUsers, FaCalendarAlt, FaHandsHelping, FaMapMarkerAlt, FaArrowRight, FaStar } from 'react-icons/fa';
+import { FaUsers, FaCalendarAlt, FaHandsHelping, FaMapMarkerAlt, FaArrowRight, FaStar, FaFacebook, FaPhone, FaWhatsapp, FaEnvelope, FaLinkedin, FaQuoteLeft } from 'react-icons/fa';
 import toast from 'react-hot-toast';
 
 const Home = () => {
@@ -587,6 +587,259 @@ const Home = () => {
               </motion.button>
             </Link>
           </motion.div>
+        </div>
+      </section>
+
+      {/* Meet the Founder Section */}
+      <section className="w-full py-20 md:py-28 bg-gradient-to-br from-slate-900 via-blue-900 to-green-900 relative overflow-hidden">
+        {/* Animated background */}
+        <div className="absolute inset-0 overflow-hidden">
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.1, 0.2, 0.1],
+            }}
+            transition={{
+              duration: 8,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+            className="absolute top-0 left-1/4 w-96 h-96 bg-green-500/20 rounded-full blur-3xl"
+          />
+          <motion.div
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.1, 0.2, 0.1],
+            }}
+            transition={{
+              duration: 10,
+              repeat: Infinity,
+              ease: "easeInOut",
+              delay: 1
+            }}
+            className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"
+          />
+        </div>
+
+        <div className="w-full max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+          {/* Section Header */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0 }}
+              whileInView={{ scale: 1, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="inline-block mb-4"
+            >
+              <span className="bg-gradient-to-r from-green-500/30 to-blue-500/30 backdrop-blur-sm px-6 py-2 rounded-full text-sm font-semibold text-white border border-white/20">
+                👨‍💼 Leadership
+              </span>
+            </motion.div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 text-white"
+            >
+              Meet the <span className="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">Founder</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="text-xl text-gray-300 max-w-2xl mx-auto"
+            >
+              The Visionary Behind SocialServe
+            </motion.p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Founder Image */}
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative"
+            >
+              <div className="relative">
+                {/* Glowing background */}
+                <motion.div
+                  animate={{
+                    scale: [1, 1.05, 1],
+                    opacity: [0.5, 0.7, 0.5],
+                  }}
+                  transition={{
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: "easeInOut"
+                  }}
+                  className="absolute inset-0 bg-gradient-to-r from-green-500/30 to-blue-500/30 rounded-3xl blur-2xl -z-10"
+                />
+                
+                {/* Image container */}
+                <motion.div
+                  whileHover={{ scale: 1.02, rotate: 1 }}
+                  transition={{ duration: 0.3 }}
+                  className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 backdrop-blur-sm"
+                >
+                  <img
+                    src="https://photos.app.goo.gl/QFm4Rf66vyPhP4Pa9"
+                    alt="Md. Istiaq Hossain - Founder of SocialServe"
+                    className="w-full h-auto object-cover"
+                    onError={(e) => {
+                      e.target.src = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=800&fit=crop';
+                    }}
+                  />
+                  {/* Overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                </motion.div>
+
+                {/* Floating badge */}
+                <motion.div
+                  initial={{ scale: 0, rotate: -180 }}
+                  whileInView={{ scale: 1, rotate: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ type: "spring", stiffness: 200, delay: 0.5 }}
+                  className="absolute -top-6 -right-6 bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-2"
+                >
+                  <FaStar className="text-yellow-300 animate-pulse" />
+                  <span className="font-bold">Founder</span>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Founder Info */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-6"
+            >
+              {/* Name and Title */}
+              <div>
+                <motion.h3
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 }}
+                  className="text-3xl md:text-4xl font-bold text-white mb-2"
+                >
+                  Md. Istiaq Hossain
+                </motion.h3>
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4 }}
+                  className="text-xl text-green-400 font-semibold mb-6"
+                >
+                  Founder & Visionary Leader
+                </motion.p>
+              </div>
+
+              {/* Vision Quote */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 }}
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 relative"
+              >
+                <FaQuoteLeft className="text-green-400 text-3xl mb-4 opacity-50" />
+                <p className="text-lg text-gray-200 leading-relaxed italic mb-4">
+                  "My vision is to create a platform where every individual can contribute to building stronger, 
+                  more connected communities. Through SocialServe, we're not just organizing events—we're 
+                  fostering a movement of positive change, one event at a time. Together, we can transform 
+                  neighborhoods, empower communities, and create lasting social impact."
+                </p>
+                <div className="flex items-center gap-2 text-green-400">
+                  <div className="w-12 h-0.5 bg-green-400"></div>
+                  <span className="text-sm font-semibold">Vision Statement</span>
+                </div>
+              </motion.div>
+
+              {/* Contact Information */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.6 }}
+                className="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20"
+              >
+                <h4 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                  <FaEnvelope className="text-green-400" />
+                  Get in Touch
+                </h4>
+                <div className="space-y-3">
+                  <motion.a
+                    href="tel:+8801851880178"
+                    whileHover={{ scale: 1.05, x: 5 }}
+                    className="flex items-center gap-3 text-gray-200 hover:text-green-400 transition-colors group"
+                  >
+                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
+                      <FaPhone className="text-green-400" />
+                    </div>
+                    <span className="font-medium">+880 1851-880178</span>
+                  </motion.a>
+                  
+                  <motion.a
+                    href="https://wa.me/8801401572207"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05, x: 5 }}
+                    className="flex items-center gap-3 text-gray-200 hover:text-green-400 transition-colors group"
+                  >
+                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
+                      <FaWhatsapp className="text-green-400 text-lg" />
+                    </div>
+                    <span className="font-medium">WhatsApp: +880 1401-572207</span>
+                  </motion.a>
+                  
+                  <motion.a
+                    href="mailto:istiaqhossain71@gmail.com"
+                    whileHover={{ scale: 1.05, x: 5 }}
+                    className="flex items-center gap-3 text-gray-200 hover:text-green-400 transition-colors group"
+                  >
+                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
+                      <FaEnvelope className="text-green-400" />
+                    </div>
+                    <span className="font-medium">istiaqhossain71@gmail.com</span>
+                  </motion.a>
+                </div>
+              </motion.div>
+
+              {/* Social Media */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.7 }}
+                className="flex items-center gap-4"
+              >
+                <span className="text-gray-300 font-medium">Connect:</span>
+                <motion.a
+                  href="https://www.facebook.com/Istiaq1971/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.2, rotate: 5 }}
+                  whileTap={{ scale: 0.9 }}
+                  className="w-12 h-12 bg-blue-600 hover:bg-blue-700 rounded-full flex items-center justify-center text-white shadow-lg transition-all"
+                  aria-label="Facebook Profile"
+                >
+                  <FaFacebook className="text-xl" />
+                </motion.a>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
