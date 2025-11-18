@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
-import CustomDatePicker from '../components/CustomDatePicker';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import { motion } from 'framer-motion';
 import toast from 'react-hot-toast';
 import { FaCalendarAlt, FaMapMarkerAlt, FaImage, FaHeading, FaFileAlt, FaTag } from 'react-icons/fa';
@@ -275,7 +276,7 @@ const CreateEvent = () => {
                 <FaCalendarAlt className="text-green-600" />
                 Event Date <span className="text-red-500">*</span>
               </label>
-              <CustomDatePicker
+              <DatePicker
                 selected={selectedDate}
                 onChange={(date) => {
                   setSelectedDate(date);
@@ -284,7 +285,14 @@ const CreateEvent = () => {
                   }
                 }}
                 minDate={new Date()}
-                placeholder="Select event date"
+                dateFormat="MMMM d, yyyy"
+                placeholderText="Select event date"
+                className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none ${
+                  errors.date
+                    ? 'border-red-500 focus:border-red-500'
+                    : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                } dark:bg-slate-700 dark:text-white`}
+                wrapperClassName="w-full"
               />
               {errors.date && <p className="text-red-500 text-sm mt-2">{errors.date}</p>}
             </div>

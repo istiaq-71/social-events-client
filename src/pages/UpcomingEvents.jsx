@@ -12,10 +12,6 @@ const UpcomingEvents = () => {
 
   const eventTypes = ['all', 'Cleanup', 'Plantation', 'Donation', 'Education', 'Healthcare', 'Other'];
 
-  useEffect(() => {
-    fetchEvents();
-  }, [eventType, searchTerm]);
-
   const fetchEvents = async () => {
     setLoading(true);
     try {
@@ -38,10 +34,15 @@ const UpcomingEvents = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    fetchEvents();
-  };
+  // Debounce search to avoid too many API calls
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchEvents();
+    }, 500); // Wait 500ms after user stops typing
+
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, eventType]);
 
   if (loading) {
     return (
@@ -74,7 +75,7 @@ const UpcomingEvents = () => {
           className="max-w-5xl mx-auto mb-12 space-y-6"
         >
           {/* Search Bar */}
-          <form onSubmit={handleSearch} className="flex gap-3">
+          <div className="flex gap-3">
             <div className="flex-1 relative">
               <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
               <input
@@ -85,15 +86,19 @@ const UpcomingEvents = () => {
                 className="w-full pl-12 pr-4 py-3 rounded-lg border-2 border-gray-300 dark:border-slate-600 dark:bg-slate-800 dark:text-white focus:outline-none focus:border-green-500"
               />
             </div>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              type="submit"
-              className="bg-green-600 hover:bg-green-700 text-white px-8 py-3 rounded-lg font-semibold shadow-lg transition-all"
-            >
-              Search
-            </motion.button>
-          </form>
+            {searchTerm && (
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setSearchTerm('')}
+                className="bg-gray-500 hover:bg-gray-600 text-white px-6 py-3 rounded-lg font-semibold shadow-lg transition-all"
+              >
+                Clear
+              </motion.button>
+            )}
+          </div>
 
           {/* Filter Buttons */}
           <div className="flex flex-wrap gap-3 justify-center">

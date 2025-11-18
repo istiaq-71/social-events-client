@@ -21,3 +21,54 @@
     scroll-behavior: smooth;
   }
 }
+
+/* React DatePicker Dark Mode Styles */
+.dark .react-datepicker {
+  background-color: rgb(30 41 55);
+  border-color: rgb(51 65 85);
+  color: rgb(241 245 249);
+}
+
+.dark .react-datepicker__header {
+  background-color: rgb(30 41 55);
+  border-bottom-color: rgb(51 65 85);
+}
+
+.dark .react-datepicker__current-month,
+.dark .react-datepicker__day-name {
+  color: rgb(241 245 249);
+}
+
+.dark .react-datepicker__day {
+  color: rgb(241 245 249);
+}
+
+.dark .react-datepicker__day:hover {
+  background-color: rgb(51 65 85);
+}
+
+.dark .react-datepicker__day--selected,
+.dark .react-datepicker__day--keyboard-selected {
+  background-color: rgb(34 197 94);
+  color: white;
+}
+
+.dark .react-datepicker__day--disabled {
+  color: rgb(75 85 99);
+}
+
+.dark .react-datepicker__triangle {
+  border-bottom-color: rgb(30 41 55);
+}
+
+.dark .react-datepicker__triangle::before {
+  border-bottom-color: rgb(51 65 85);
+}
+
+.dark .react-datepicker__time-container .react-datepicker__time {
+  background-color: rgb(30 41 55);
+}
+
+.dark .react-datepicker__time-container .react-datepicker__time .react-datepicker__time-box {
+  border-color: rgb(51 65 85);
+}

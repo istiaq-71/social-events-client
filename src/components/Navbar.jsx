@@ -37,7 +37,7 @@ const Navbar = () => {
         }
         onClick={() => setIsMenuOpen(false)}
       >
-        Events
+        Upcoming Events
       </NavLink>
     </>
   );

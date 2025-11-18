@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useAuth } from '../providers/AuthProvider';
 import { motion } from 'framer-motion';
 import { FaEdit, FaTrash, FaCalendarAlt, FaMapMarkerAlt, FaTag, FaImage, FaHeading, FaFileAlt } from 'react-icons/fa';
-import CustomDatePicker from '../components/CustomDatePicker';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import toast from 'react-hot-toast';
 import LoadingSpinner from '../components/LoadingSpinner';
 
@@ -12,6 +13,7 @@ const ManageEvents = () => {
   const [loading, setLoading] = useState(true);
   const [editingEvent, setEditingEvent] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const eventTypes = ['Cleanup', 'Plantation', 'Donation', 'Education', 'Healthcare', 'Other'];
 
@@ -40,13 +42,65 @@ const ManageEvents = () => {
       eventDate: event.eventDate
     });
     setSelectedDate(new Date(event.eventDate));
+    setErrors({});
+  };
+
+  const validateUpdateForm = () => {
+    const newErrors = {};
+
+    if (!editingEvent.title || !editingEvent.title.trim()) {
+      newErrors.title = 'Event title is required';
+    } else if (editingEvent.title.trim().length < 5) {
+      newErrors.title = 'Title must be at least 5 characters';
+    }
+
+    if (!editingEvent.description || !editingEvent.description.trim()) {
+      newErrors.description = 'Description is required';
+    } else if (editingEvent.description.trim().length < 20) {
+      newErrors.description = 'Description must be at least 20 characters';
+    }
+
+    if (!editingEvent.eventType) {
+      newErrors.eventType = 'Event type is required';
+    }
+
+    if (!editingEvent.thumbnailUrl || !editingEvent.thumbnailUrl.trim()) {
+      newErrors.thumbnailUrl = 'Thumbnail URL is required';
+    } else {
+      try {
+        new URL(editingEvent.thumbnailUrl);
+      } catch {
+        newErrors.thumbnailUrl = 'Please enter a valid URL';
+      }
+    }
+
+    if (!editingEvent.location || !editingEvent.location.trim()) {
+      newErrors.location = 'Location is required';
+    } else if (editingEvent.location.trim().length < 3) {
+      newErrors.location = 'Location must be at least 3 characters';
+    }
+
+    if (!selectedDate) {
+      newErrors.date = 'Event date is required';
+    } else {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const selected = new Date(selectedDate);
+      selected.setHours(0, 0, 0, 0);
+      if (selected < today) {
+        newErrors.date = 'Event date must be in the future';
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
 
-    if (!selectedDate) {
-      toast.error('Please select an event date');
+    if (!validateUpdateForm()) {
+      toast.error('Please fix the errors in the form');
       return;
     }
 
@@ -71,9 +125,11 @@ const ManageEvents = () => {
       if (response.ok) {
         toast.success('Event updated successfully!');
         setEditingEvent(null);
+        setErrors({});
         fetchMyEvents();
       } else {
-        toast.error('Failed to update event');
+        const data = await response.json();
+        toast.error(data.message || 'Failed to update event');
       }
     } catch (error) {
       toast.error('Error updating event');
@@ -250,87 +306,140 @@ const ManageEvents = () => {
                 <div>
                   <label className="block text-sm font-semibold mb-3 flex items-center gap-2">
                     <FaHeading className="text-primary" />
-                    Title
+                    Title <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={editingEvent.title}
-                    onChange={(e) =>
-                      setEditingEvent({ ...editingEvent, title: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 dark:border-slate-600 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500"
+                    onChange={(e) => {
+                      setEditingEvent({ ...editingEvent, title: e.target.value });
+                      if (errors.title) {
+                        setErrors({ ...errors, title: '' });
+                      }
+                    }}
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors focus:outline-none ${
+                      errors.title
+                        ? 'border-red-500 focus:border-red-500'
+                        : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                    } dark:bg-slate-800/50`}
                   />
+                  {errors.title && <p className="text-red-500 text-sm mt-2">{errors.title}</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-semibold mb-3 flex items-center gap-2">
                     <FaFileAlt className="text-primary" />
-                    Description
+                    Description <span className="text-red-500">*</span>
                   </label>
                   <textarea
                     value={editingEvent.description}
-                    onChange={(e) =>
-                      setEditingEvent({ ...editingEvent, description: e.target.value })
-                    }
+                    onChange={(e) => {
+                      setEditingEvent({ ...editingEvent, description: e.target.value });
+                      if (errors.description) {
+                        setErrors({ ...errors, description: '' });
+                      }
+                    }}
                     rows="5"
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 dark:border-slate-600 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 resize-none"
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors focus:outline-none resize-none ${
+                      errors.description
+                        ? 'border-red-500 focus:border-red-500'
+                        : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                    } dark:bg-slate-800/50`}
                   />
+                  {errors.description && <p className="text-red-500 text-sm mt-2">{errors.description}</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-semibold mb-3 flex items-center gap-2">
                     <FaTag className="text-primary" />
-                    Event Type
+                    Event Type <span className="text-red-500">*</span>
                   </label>
                   <select
                     value={editingEvent.eventType}
-                    onChange={(e) =>
-                      setEditingEvent({ ...editingEvent, eventType: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 dark:border-slate-600 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500 cursor-pointer"
+                    onChange={(e) => {
+                      setEditingEvent({ ...editingEvent, eventType: e.target.value });
+                      if (errors.eventType) {
+                        setErrors({ ...errors, eventType: '' });
+                      }
+                    }}
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors focus:outline-none cursor-pointer ${
+                      errors.eventType
+                        ? 'border-red-500 focus:border-red-500'
+                        : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                    } dark:bg-slate-800/50`}
                   >
                     {eventTypes.map(type => (
                       <option key={type} value={type}>{type}</option>
                     ))}
                   </select>
+                  {errors.eventType && <p className="text-red-500 text-sm mt-2">{errors.eventType}</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-semibold mb-3 flex items-center gap-2">
                     <FaImage className="text-primary" />
-                    Thumbnail URL
+                    Thumbnail URL <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="url"
                     value={editingEvent.thumbnailUrl}
-                    onChange={(e) =>
-                      setEditingEvent({ ...editingEvent, thumbnailUrl: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 dark:border-slate-600 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500"
+                    onChange={(e) => {
+                      setEditingEvent({ ...editingEvent, thumbnailUrl: e.target.value });
+                      if (errors.thumbnailUrl) {
+                        setErrors({ ...errors, thumbnailUrl: '' });
+                      }
+                    }}
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors focus:outline-none ${
+                      errors.thumbnailUrl
+                        ? 'border-red-500 focus:border-red-500'
+                        : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                    } dark:bg-slate-800/50`}
                   />
+                  {errors.thumbnailUrl && <p className="text-red-500 text-sm mt-2">{errors.thumbnailUrl}</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-semibold mb-3 flex items-center gap-2">
                     <FaMapMarkerAlt className="text-primary" />
-                    Location
+                    Location <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
                     value={editingEvent.location}
-                    onChange={(e) =>
-                      setEditingEvent({ ...editingEvent, location: e.target.value })
-                    }
-                    className="w-full px-4 py-3 rounded-xl border-2 border-gray-300 dark:border-slate-600 dark:bg-slate-800/50 focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500"
+                    onChange={(e) => {
+                      setEditingEvent({ ...editingEvent, location: e.target.value });
+                      if (errors.location) {
+                        setErrors({ ...errors, location: '' });
+                      }
+                    }}
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors focus:outline-none ${
+                      errors.location
+                        ? 'border-red-500 focus:border-red-500'
+                        : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                    } dark:bg-slate-800/50`}
                   />
+                  {errors.location && <p className="text-red-500 text-sm mt-2">{errors.location}</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-semibold mb-3 flex items-center gap-2">
                     <FaCalendarAlt className="text-primary" />
-                    Event Date
+                    Event Date <span className="text-red-500">*</span>
                   </label>
-                  <CustomDatePicker
+                  <DatePicker
                     selected={selectedDate}
-                    onChange={(date) => setSelectedDate(date)}
+                    onChange={(date) => {
+                      setSelectedDate(date);
+                      if (errors.date) {
+                        setErrors({ ...errors, date: '' });
+                      }
+                    }}
                     minDate={new Date()}
-                    placeholder="Select event date"
+                    dateFormat="MMMM d, yyyy"
+                    placeholderText="Select event date"
+                    className={`w-full px-4 py-3 rounded-xl border-2 transition-colors focus:outline-none ${
+                      errors.date
+                        ? 'border-red-500 focus:border-red-500'
+                        : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
+                    } dark:bg-slate-800/50 dark:text-white`}
+                    wrapperClassName="w-full"
                   />
+                  {errors.date && <p className="text-red-500 text-sm mt-2">{errors.date}</p>}
                 </div>
                 <div className="flex gap-4 pt-4">
                   <motion.button
