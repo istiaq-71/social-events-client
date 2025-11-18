@@ -5,6 +5,9 @@ import { FaUsers, FaCalendarAlt, FaHandsHelping, FaMapMarkerAlt, FaArrowRight, F
 import toast from 'react-hot-toast';
 
 const Home = () => {
+  // Founder photo URL - Google Drive direct link
+  const FOUNDER_PHOTO_URL = 'https://drive.google.com/uc?export=view&id=1WKqXQlPWev1_U0PU4xT9JxtKF1JtQTLx';
+  
   const [email, setEmail] = useState('');
   const [isSubscribing, setIsSubscribing] = useState(false);
   const features = [
@@ -691,7 +694,7 @@ const Home = () => {
                   className="relative rounded-3xl overflow-hidden shadow-2xl border-4 border-white/20 backdrop-blur-sm"
                 >
                   <img
-                    src="https://photos.app.goo.gl/QFm4Rf66vyPhP4Pa9"
+                    src={FOUNDER_PHOTO_URL}
                     alt="Md. Istiaq Hossain - Founder of SocialServe"
                     className="w-full h-auto object-cover"
                     onError={(e) => {
