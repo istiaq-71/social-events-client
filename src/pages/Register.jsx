@@ -144,27 +144,27 @@ const Register = () => {
   );
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gradient-to-br from-gray-50 via-blue-50/30 to-green-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
+    <div className="min-h-screen flex items-center justify-center py-8 sm:py-12 px-4 sm:px-6 bg-gradient-to-br from-gray-50 via-blue-50/30 to-green-50/30 dark:from-slate-900 dark:via-slate-800 dark:to-slate-900">
       <motion.div
         initial={{ opacity: 0, y: 50, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        className="max-w-md w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-10 border border-gray-200/50 dark:border-slate-700/50"
+        className="max-w-md w-full bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl rounded-2xl sm:rounded-3xl shadow-2xl p-6 sm:p-8 md:p-10 border border-gray-200/50 dark:border-slate-700/50"
       >
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ delay: 0.1 }}
-          className="text-center mb-8"
+          className="text-center mb-6 sm:mb-8"
         >
-          <div className="inline-block mb-4">
-            <span className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+          <div className="inline-block mb-3 sm:mb-4">
+            <span className="bg-gradient-to-r from-green-500 to-blue-500 text-white px-4 sm:px-6 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold shadow-lg">
               🎉 Join Us
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold mb-3 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-3 bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
             Create Your Account
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 text-lg">Join our community today</p>
+          <p className="text-gray-600 dark:text-gray-300 text-base sm:text-lg">Join our community today</p>
         </motion.div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -175,11 +175,11 @@ const Register = () => {
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className={`w-full px-4 py-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-green-500/20 ${
+              className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-green-500/20 text-sm sm:text-base md:text-lg min-h-[44px] ${
                 errors.name
                   ? 'border-red-500 focus:border-red-500 dark:border-red-500'
                   : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
-              } dark:bg-slate-800/50 text-lg`}
+              } dark:bg-slate-800/50`}
               placeholder="John Doe"
             />
             {errors.name && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
@@ -194,11 +194,11 @@ const Register = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-4 py-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-green-500/20 ${
+              className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-green-500/20 text-sm sm:text-base md:text-lg min-h-[44px] ${
                 errors.email
                   ? 'border-red-500 focus:border-red-500 dark:border-red-500'
                   : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
-              } dark:bg-slate-800/50 text-lg`}
+              } dark:bg-slate-800/50`}
               placeholder="your@email.com"
             />
             {errors.email && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
@@ -213,11 +213,11 @@ const Register = () => {
               name="photoURL"
               value={formData.photoURL}
               onChange={handleChange}
-              className={`w-full px-4 py-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-green-500/20 ${
+              className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-green-500/20 text-sm sm:text-base md:text-lg min-h-[44px] ${
                 errors.photoURL
                   ? 'border-red-500 focus:border-red-500 dark:border-red-500'
                   : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
-              } dark:bg-slate-800/50 text-lg`}
+              } dark:bg-slate-800/50`}
               placeholder="https://example.com/photo.jpg"
             />
             {errors.photoURL && <p className="text-red-500 text-sm mt-2 flex items-center gap-1">
@@ -233,11 +233,11 @@ const Register = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-green-500/20 ${
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 md:py-4 rounded-xl border-2 transition-all focus:outline-none focus:ring-2 focus:ring-green-500/20 text-sm sm:text-base md:text-lg min-h-[44px] pr-10 sm:pr-12 ${
                   errors.password
                     ? 'border-red-500 focus:border-red-500 dark:border-red-500'
                     : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
-                } dark:bg-slate-800/50 text-lg pr-12`}
+                } dark:bg-slate-800/50`}
                 placeholder="Create a strong password"
               />
               <button
@@ -266,7 +266,7 @@ const Register = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isLoading || !isPasswordValid}
-            className="w-full bg-gradient-to-r from-green-600 via-green-500 to-blue-600 text-white py-4 rounded-xl font-bold hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-lg relative overflow-hidden group"
+            className="w-full bg-gradient-to-r from-green-600 via-green-500 to-blue-600 text-white py-3 sm:py-4 rounded-xl font-bold hover:shadow-2xl transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg min-h-[44px] touch-manipulation relative overflow-hidden group"
           >
             <span className="relative z-10 flex items-center justify-center gap-2">
               {isLoading ? (
@@ -302,7 +302,7 @@ const Register = () => {
           whileTap={{ scale: 0.98 }}
           onClick={handleGoogleSignIn}
           disabled={isLoading}
-          className="w-full flex items-center justify-center space-x-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-2 border-gray-300 dark:border-slate-600 py-4 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-slate-700 transition-all disabled:opacity-50 text-lg shadow-lg"
+          className="w-full flex items-center justify-center space-x-2 sm:space-x-3 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm border-2 border-gray-300 dark:border-slate-600 py-3 sm:py-4 rounded-xl font-semibold hover:bg-gray-50 dark:hover:bg-slate-700 transition-all disabled:opacity-50 text-base sm:text-lg shadow-lg min-h-[44px] touch-manipulation"
         >
           <FaGoogle className="text-red-500 text-xl" />
           <span>Sign up with Google</span>

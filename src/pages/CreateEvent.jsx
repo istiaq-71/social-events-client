@@ -145,22 +145,22 @@ const CreateEvent = () => {
   };
 
   return (
-    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-slate-900">
+    <div className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 md:px-8 bg-gray-50 dark:bg-slate-900">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-3xl mx-auto"
       >
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gray-900 dark:text-white">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 text-gray-900 dark:text-white px-2">
             Create an <span className="text-green-600 dark:text-green-400">Event</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg px-2">
             Organize a social development event and make a positive impact in your community
           </p>
         </div>
 
-        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-8 md:p-12">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl p-6 sm:p-8 md:p-12">
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Title */}
             <div>
@@ -173,7 +173,7 @@ const CreateEvent = () => {
                 name="title"
                 value={formData.title}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none ${
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border-2 transition-colors focus:outline-none text-sm sm:text-base min-h-[44px] ${
                   errors.title
                     ? 'border-red-500 focus:border-red-500'
                     : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
@@ -303,7 +303,7 @@ const CreateEvent = () => {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={isLoading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-lg font-semibold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 rounded-lg font-semibold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg min-h-[44px] touch-manipulation"
             >
               {isLoading ? 'Creating Event...' : 'Create Event'}
             </motion.button>

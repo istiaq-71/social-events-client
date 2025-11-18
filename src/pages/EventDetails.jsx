@@ -108,13 +108,13 @@ const EventDetails = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-slate-900">
+    <div className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 md:px-8 bg-gray-50 dark:bg-slate-900">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         className="max-w-4xl mx-auto bg-white dark:bg-slate-800 rounded-xl shadow-xl overflow-hidden"
       >
-        <div className="relative h-96 overflow-hidden">
+        <div className="relative h-48 sm:h-64 md:h-80 lg:h-96 overflow-hidden">
           <img
             src={event.thumbnailUrl}
             alt={event.title}
@@ -127,14 +127,14 @@ const EventDetails = () => {
                 {event.eventType}
               </span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-2 drop-shadow-lg">
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 drop-shadow-lg px-2">
               {event.title}
             </h1>
           </div>
         </div>
         
-        <div className="p-8 md:p-12">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="p-6 sm:p-8 md:p-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-6 sm:mb-8">
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-4 p-4 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-800"
@@ -202,7 +202,7 @@ const EventDetails = () => {
               whileTap={{ scale: 0.98 }}
               onClick={handleJoinEvent}
               disabled={joining}
-              className="w-full bg-green-600 hover:bg-green-700 text-white py-5 rounded-xl text-xl font-bold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 md:py-5 rounded-xl text-base sm:text-lg md:text-xl font-bold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed min-h-[44px] touch-manipulation"
             >
               {joining ? 'Joining Event...' : '✨ Join This Event'}
             </motion.button>

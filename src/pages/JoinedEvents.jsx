@@ -75,17 +75,17 @@ const JoinedEvents = () => {
   }
 
   return (
-    <div className="min-h-screen py-12 px-4 bg-gray-50 dark:bg-slate-800">
+    <div className="min-h-screen py-8 sm:py-12 px-4 sm:px-6 md:px-8 bg-gray-50 dark:bg-slate-800">
       <div className="w-full max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-12"
+          className="text-center mb-8 sm:mb-12"
         >
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 sm:mb-4 px-2">
             My Joined <span className="bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">Events</span>
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
+          <p className="text-gray-600 dark:text-gray-400 text-base sm:text-lg px-2">
             Track all the events you've joined, organized by date
           </p>
         </motion.div>
@@ -124,9 +124,9 @@ const JoinedEvents = () => {
                       : 'border-l-green-600'
                   }`}
                 >
-                  <div className="flex flex-col md:flex-row">
+                  <div className="flex flex-col sm:flex-row">
                     {/* Image */}
-                    <div className="md:w-1/4 h-48 md:h-auto overflow-hidden">
+                    <div className="sm:w-1/3 md:w-1/4 h-48 sm:h-auto overflow-hidden flex-shrink-0">
                       <motion.img
                         whileHover={{ scale: 1.1 }}
                         src={event.eventThumbnail || 'https://via.placeholder.com/300'}
@@ -136,8 +136,8 @@ const JoinedEvents = () => {
                     </div>
 
                     {/* Content */}
-                    <div className="flex-1 p-6 md:p-8">
-                      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                    <div className="flex-1 p-4 sm:p-6 md:p-8">
+                      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                         <div className="flex-1">
                           <div className="flex items-center gap-3 mb-3">
                             <span className={`px-3 py-1 rounded-full text-xs font-semibold ${
@@ -183,7 +183,7 @@ const JoinedEvents = () => {
                           whileHover={{ scale: 1.05 }}
                           whileTap={{ scale: 0.95 }}
                           onClick={() => handleRemoveEvent(event._id)}
-                          className="w-full md:w-auto bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+                          className="w-full sm:w-auto bg-red-500 hover:bg-red-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 text-sm sm:text-base min-h-[44px] touch-manipulation"
                         >
                           Remove
                           <FaArrowRight className="rotate-180" />

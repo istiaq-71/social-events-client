@@ -120,16 +120,16 @@ const Home = () => {
   return (
     <div className="w-full">
       {/* Hero Banner Section */}
-      <section className="relative w-full min-h-[600px] bg-gradient-to-br from-slate-900 via-blue-900 to-green-900 flex items-center justify-center overflow-hidden">
+      <section className="relative w-full min-h-[500px] sm:min-h-[600px] md:min-h-[650px] bg-gradient-to-br from-slate-900 via-blue-900 to-green-900 flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative z-10 text-center text-white px-4 max-w-6xl mx-auto py-12">
+        <div className="relative z-10 text-center text-white px-4 sm:px-6 md:px-8 max-w-6xl mx-auto py-8 sm:py-12 md:py-16">
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="mb-6"
+            className="mb-4 sm:mb-6"
           >
-            <span className="inline-block bg-green-500 text-gray-900 px-4 py-2 rounded-full text-sm font-semibold mb-6">
+            <span className="inline-block bg-green-500 text-gray-900 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold mb-4 sm:mb-6">
               ✨ Join the Movement
             </span>
           </motion.div>
@@ -138,7 +138,7 @@ const Home = () => {
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.3 }}
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-4 sm:mb-6 leading-tight px-2"
           >
             Build a Better Community Together
           </motion.h1>
@@ -147,7 +147,7 @@ const Home = () => {
             initial={{ y: 50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="text-lg md:text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
+            className="text-base sm:text-lg md:text-xl text-gray-300 mb-6 sm:mb-8 max-w-2xl mx-auto px-2"
           >
             Join social development events and make a lasting impact in your neighborhood
           </motion.p>
@@ -156,13 +156,13 @@ const Home = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ delay: 0.5 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-2"
           >
-            <Link to="/upcoming-events">
+            <Link to="/upcoming-events" className="w-full sm:w-auto">
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg font-semibold shadow-lg transition-all flex items-center gap-2"
+                className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold shadow-lg transition-all flex items-center justify-center gap-2 text-sm sm:text-base min-h-[44px] touch-manipulation"
               >
                 Explore Events <FaArrowRight />
               </motion.button>
@@ -176,7 +176,7 @@ const Home = () => {
                   aboutSection.scrollIntoView({ behavior: 'smooth' });
                 }
               }}
-              className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-all"
+              className="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold hover:bg-white hover:text-gray-900 transition-all text-sm sm:text-base min-h-[44px] touch-manipulation"
             >
               Learn More
             </motion.button>
@@ -185,9 +185,9 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="w-full py-12 md:py-16 bg-gray-50 dark:bg-slate-800">
-        <div className="w-full max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
+      <section className="w-full py-8 sm:py-12 md:py-16 bg-gray-50 dark:bg-slate-800">
+        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
@@ -195,12 +195,12 @@ const Home = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="text-center"
+                className="text-center px-2"
               >
-                <div className="text-3xl md:text-4xl font-bold text-green-600 dark:text-green-400">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-green-600 dark:text-green-400">
                   {stat.number}
                 </div>
-                <p className="text-gray-600 dark:text-gray-400 text-sm md:text-base mt-2">
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm md:text-base mt-1 sm:mt-2">
                   {stat.label}
                 </p>
               </motion.div>

@@ -94,14 +94,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center py-12 px-4 bg-gray-50 dark:bg-slate-900">
+    <div className="min-h-screen flex items-center justify-center py-8 sm:py-12 px-4 sm:px-6 bg-gray-50 dark:bg-slate-900">
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
-        className="max-w-md w-full bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-8"
+        className="max-w-md w-full bg-white dark:bg-slate-800 rounded-xl shadow-2xl p-6 sm:p-8"
       >
-        <h2 className="text-3xl font-bold text-center mb-2 text-gray-900 dark:text-white">Welcome Back</h2>
-        <p className="text-center text-gray-600 dark:text-gray-400 mb-8">Sign in to your account to continue</p>
+        <h2 className="text-2xl sm:text-3xl font-bold text-center mb-2 text-gray-900 dark:text-white">Welcome Back</h2>
+        <p className="text-center text-gray-600 dark:text-gray-400 mb-6 sm:mb-8 text-sm sm:text-base">Sign in to your account to continue</p>
 
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -111,7 +111,7 @@ const Login = () => {
               name="email"
               value={formData.email}
               onChange={handleChange}
-              className={`w-full px-4 py-3 rounded-lg border transition-colors focus:outline-none ${
+              className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border transition-colors focus:outline-none text-sm sm:text-base min-h-[44px] ${
                 errors.email
                   ? 'border-red-500 focus:border-red-500'
                   : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
@@ -129,7 +129,7 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 rounded-lg border transition-colors focus:outline-none pr-12 ${
+                className={`w-full px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg border transition-colors focus:outline-none pr-10 sm:pr-12 text-sm sm:text-base min-h-[44px] ${
                   errors.password
                     ? 'border-red-500 focus:border-red-500'
                     : 'border-gray-300 dark:border-slate-600 focus:border-green-500 dark:focus:border-green-500'
@@ -152,7 +152,7 @@ const Login = () => {
             whileTap={{ scale: 0.98 }}
             type="submit"
             disabled={isLoading}
-            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg min-h-[44px] touch-manipulation"
           >
             {isLoading ? 'Signing in...' : 'Sign In'}
           </motion.button>
