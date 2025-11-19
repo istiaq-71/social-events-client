@@ -1,7 +1,7 @@
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../providers/AuthProvider';
 import { useTheme } from '../providers/ThemeProvider';
-import { FaSun, FaMoon, FaBars, FaTimes, FaLeaf, FaSignOutAlt } from 'react-icons/fa';
+import { FaSun, FaMoon, FaBars, FaTimes, FaLeaf, FaSignOutAlt, FaCalendarAlt } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
@@ -29,15 +29,37 @@ const Navbar = () => {
       <NavLink
         to="/upcoming-events"
         className={({ isActive }) =>
-          `px-3 sm:px-4 py-2.5 sm:py-3 rounded-lg font-medium transition-all min-h-[44px] flex items-center ${
-            isActive
-              ? 'bg-primary/10 text-primary'
-              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-800'
-          }`
+          `relative overflow-hidden group min-h-[44px] flex items-center`
         }
         onClick={() => setIsMenuOpen(false)}
       >
-        Upcoming Events
+        {({ isActive }) => (
+          <motion.div
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+            className={`
+              px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl font-semibold 
+              min-h-[44px] flex items-center gap-2
+              transition-all duration-300 shadow-lg
+              ${
+                isActive
+                  ? 'bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white shadow-blue-500/50'
+                  : 'bg-gradient-to-r from-blue-500 to-purple-600 text-white hover:from-blue-600 hover:to-purple-700 shadow-blue-500/30 hover:shadow-blue-500/50'
+              }
+            `}
+          >
+            <FaCalendarAlt className="text-sm sm:text-base flex-shrink-0" />
+            <span className="text-sm sm:text-base whitespace-nowrap">Upcoming Events</span>
+            {isActive && (
+              <motion.div
+                layoutId="activeIndicator"
+                className="absolute inset-0 bg-white/20 rounded-xl"
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+              />
+            )}
+          </motion.div>
+        )}
       </NavLink>
     </>
   );
